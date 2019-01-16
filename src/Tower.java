@@ -10,9 +10,11 @@ import java.util.ArrayList;
 public class Tower {
   
   // Anfang Attribute
+  Playground playground;
+
   double range=2;             //Reichweite des Turms
-  int reload=100;             //Nachladezeit des  Turms in ticks
-  int damage=50;              //Staerke des Turms pro Hit
+  int reload=6;             //Nachladezeit des  Turms in ticks
+  int damage=10;              //Staerke des Turms pro Hit
   
   Punkt position;             // Punkt der die Position des Turms definiert
   int zoom;                   // evtl noch brauchbar
@@ -28,8 +30,9 @@ public class Tower {
     *@param position Ein Punkt an dem der Turm erstellt wird 
     */
   
-  Tower(Punkt position) {
+  Tower(Punkt position,Playground playground) {
     this.position=position;
+    this.playground=playground;
   }
   
   // Anfang Methoden
@@ -39,19 +42,25 @@ public class Tower {
     *@param Enemys Eine Liste von Enemys die erreicht werden k�nnen
     */
   public void update( ArrayList<Enemy> Enemys){
-    if(++laden>reload){
-      laden=0;
+    if(laden>reload){
+
       if(target==null || !target.aktiv){
           ArrayList<Enemy> Enemyinrange=inrange(Enemys);
           if(Enemyinrange!=null){target=Enemyinrange.get(0);}
 
+
       }
-      if(target!=null && inrange(target)){shoot();}                                                     //TODO
+      if(target!=null && inrange(target)){
+        shoot();
+        playground.Particles.add(new Particle(10,new line(position,target.position.copy())));
+        laden=0;
+      }                                                     //TODO
       
-    }
+    }else {laden++;}
   }
   public void shoot(){
     target.HP-=damage;
+    System.out.println(target.HP);
     target.update();
   }
 

@@ -5,7 +5,8 @@
  * @version 1.0 vom 19.12.2018
  * @author Konstantin Bachem
  */
-  import java.awt.Color;
+
+import java.awt.Color;
 import javax.swing.JPanel;
 import java.awt.Graphics;
  import java.util.ArrayList;
@@ -51,7 +52,7 @@ public class Playgroundanzeige extends JPanel {
     anzeige.updateUI();
 
 
-    Tower T=new Tower(new Punkt(2.5,2.5));
+    Tower T=new Tower(new Punkt(2.5,2.5),hex);
     T.range=5;
     T.reload=10;
 
@@ -159,7 +160,7 @@ public class Playgroundanzeige extends JPanel {
   public void paintparticle(Graphics g){
     for (int i=0;i<Pground.Particles.size();i++ ) {
       Particle P=Pground.Particles.get(i);
-
+      draw(P.G,g);
      //if(P instanceof line){}//TODO
     }
   }
@@ -184,5 +185,12 @@ public class Playgroundanzeige extends JPanel {
         g.fillOval((int)((T.position.x-0.3)*zoom),(int)((T.position.y-0.3)*zoom),(int)(2*zoom*0.3),(int)(2*zoom*0.3));    //kreis
       } // end of for
     }
+
+    public void draw(line Linie,Graphics g){g.drawLine((int)(Linie.P1.x*zoom),(int)(Linie.P1.y*zoom),(int)(Linie.P2.x*zoom),(int)(Linie.P2.y*zoom));}
+
+  public void draw(grafikelemente G,Graphics g){
+    if(G instanceof line){draw((line)G,g);}
+
+  }
 } // end of class Playgroundanzeige
 
