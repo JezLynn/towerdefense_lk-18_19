@@ -1,10 +1,12 @@
-package towerdefense; /**
+package towerdefense;
+/**
   *
   * Beschreibung
   *
   * @version 1.0 vom 12.12.2018
   * @author 
   */
+ import towerdefense.grafikelemente.Circle;
  import towerdefense.grafikelemente.Grafikelemente;
 
 public class Enemy implements pos{
@@ -26,6 +28,7 @@ public class Enemy implements pos{
   Enemy(double x,double y){//,char[][] level){
    position=new Punkt(x,y);//this.level=level;
 //  this.x=x;this.y=y;
+    this.G=new Circle(position,0.3);
   }
   public void update(){
     if(HP<=0){

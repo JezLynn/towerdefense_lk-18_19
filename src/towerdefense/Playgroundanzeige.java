@@ -1,4 +1,5 @@
-package towerdefense; /**
+package towerdefense;
+/**
  * Beschreibung
  *
  * @version 1.0 vom 19.12.2018
@@ -9,9 +10,8 @@ import towerdefense.grafikelemente.Grafikelemente;
 import towerdefense.grafikelemente.Circle;
 import towerdefense.grafikelemente.Line;
 
-import java.awt.Color;
+import java.awt.*;
 import javax.swing.JPanel;
-import java.awt.Graphics;
 import java.util.ArrayList;
 import java.io.*;//dateilesen
 
@@ -139,32 +139,30 @@ public class Playgroundanzeige extends JPanel {
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+
+        painthintergrund(g);
+        paintenemy(g);
+        painttower(g);
+        paintparticle(g);
+    }
+    public void painthintergrund(Graphics g){
         boolean rahmen = true;
         for (int X = 0; X < hintergrund[0].length; X++) { //malt das feld
             for (int Y = 0; Y < hintergrund.length; Y++) {
                 g.setColor(hintergrund[Y][X] == null ? Color.GRAY : hintergrund[Y][X]);
 
                 g.fillRect(X * zoom, Y * zoom, zoom, zoom);
+                g.setColor(Color.BLACK);
+                g.drawRect(X * zoom, Y * zoom, zoom, zoom);
                 //    g.setColor(Color.BLACK);
                 //    g.drawRect(xPos,yPos,width,height);
             } // end of for
         } // end of for
-        if (rahmen) {
-            g.setColor(Color.BLACK);
-            for (int X = 0; X < hintergrund[0].length; X++) {
-                for (int Y = 0; Y < hintergrund.length; Y++) {
-                    g.drawRect(X * zoom, Y * zoom, zoom, zoom);
-                } // end of for
-            } // end of for
-        }
+
 
         //    for (Enemy E:Enemys) {//malt enemys
         //      E.paint(g);
         //    } // end of for
-
-        paintenemy(g);
-        painttower(g);
-        paintparticle(g);
     }
 
     public void paintparticle(Graphics g) {
