@@ -1,0 +1,22 @@
+﻿[Diagram]
+comments=0
+OffsetX=0
+OffsetY=0
+Visibility=0
+ShowParameter=4
+SortOrder=0
+ShowIcons=2
+ShowConnections=0
+Fontname=Segoe UI
+Fontsize=10
+ShowObjectDiagram=0
+
+[Interactive]
+I0=
+
+[Window]
+Left=25
+Top=25
+Width=705
+Height=182
+
