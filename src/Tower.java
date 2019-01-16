@@ -1,6 +1,7 @@
 /**
   *
   * Beschreibung Objekt eines Turms mit allen wichtigen Attributen und Funktionen/Methoden
+  * Die Standartklasse für Verteidigungstürme
   *
   * @version 1.0 vom 12.12.2018
   * @author Konstantin Bachem
