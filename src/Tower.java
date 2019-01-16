@@ -11,6 +11,7 @@ public class Tower {
   
   // Anfang Attribute
   Playground playground;
+  grafikelemente G;
 
   double range=2;             //Reichweite des Turms
   int reload=6;             //Nachladezeit des  Turms in ticks
@@ -33,6 +34,7 @@ public class Tower {
   Tower(Punkt position,Playground playground) {
     this.position=position;
     this.playground=playground;
+    this.G=new circle(position,0.3);
   }
   
   // Anfang Methoden

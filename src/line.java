@@ -6,5 +6,5 @@ public class line extends grafikelemente{
         P1=p1;
         P2=p2;
     }
-    public line get(){return this;}
+
 }
