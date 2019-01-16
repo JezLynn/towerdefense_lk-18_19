@@ -1,9 +1,13 @@
-/**
+package towerdefense; /**
  * Beschreibung
  *
  * @version 1.0 vom 19.12.2018
  * @author Konstantin Bachem
  */
+
+import towerdefense.grafikelemente.Grafikelemente;
+import towerdefense.grafikelemente.Circle;
+import towerdefense.grafikelemente.Line;
 
 import java.awt.Color;
 import javax.swing.JPanel;
@@ -167,7 +171,7 @@ public class Playgroundanzeige extends JPanel {
         for (int i = 0; i < Pground.Particles.size(); i++) {
             Particle P = Pground.Particles.get(i);
             draw(P.G, g);
-            //if(P instanceof line){}//TODO
+            //if(P instanceof towerdefense.grafikelemente.Line){}//TODO
         }
     }
 
@@ -177,7 +181,7 @@ public class Playgroundanzeige extends JPanel {
             if (E.aktiv) {
                 g.setColor(Color.YELLOW);
                 //g.fillRect((int)((position.x-0.3)*zoom),(int)((position.y-0.3)*zoom),(int)(2*zoom*0.3),(int)(2*zoom*0.3));  //quadrat
-                g.fillOval((int) ((E.position.x - 0.3) * zoom), (int) ((E.position.y - 0.3) * zoom), (int) (2 * zoom * 0.3), (int) (2 * zoom * 0.3));    //kreis
+                draw(E.G, g);    //kreis
             } // end of for
         }
     }
@@ -194,20 +198,20 @@ public class Playgroundanzeige extends JPanel {
     }
 
 
-    public void draw(line Linie, Graphics g) {
+    public void draw(Line Linie, Graphics g) {
         g.drawLine((int) (Linie.P1.x * zoom), (int) (Linie.P1.y * zoom), (int) (Linie.P2.x * zoom), (int) (Linie.P2.y * zoom));
     }
 
-    public void draw(circle Kreis, Graphics g) {
+    public void draw(Circle Kreis, Graphics g) {
         g.fillOval((int) ((Kreis.position.x -Kreis.radius) * zoom), (int) ((Kreis.position.y -Kreis.radius) * zoom), (int) (2 * zoom * Kreis.radius), (int) (2 * zoom * Kreis.radius));
     }
 
 
-    public void draw(grafikelemente G, Graphics g) {
-        if (G instanceof line) {
-            draw((line) G, g);
-        } else if (G instanceof circle) {
-            draw((circle) G, g);
+    public void draw(Grafikelemente G, Graphics g) {
+        if (G instanceof Line) {
+            draw((Line) G, g);
+        } else if (G instanceof Circle) {
+            draw((Circle) G, g);
         }
     }
     } // end of class Playgroundanzeige

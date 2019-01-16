@@ -5,10 +5,14 @@
   * @version 1.0 vom 12.12.2018
   * @author 
   */
+ import grafikelemente.Grafikelemente;
+
  import java.awt.Graphics;
  import java.awt.Color; 
 public class Enemy implements pos{
   //  boolean active=false;
+  Grafikelemente G;
+
   int speed=1;
   double schrittweite=0.05;
   int zoom=10;

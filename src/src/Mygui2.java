@@ -1,8 +1,6 @@
 /**
  *
  * Beschreibung
- * behilfsmäßig
- * erstellt ein Jframe
  *
  * @version 1.0 vom 14.11.2018
  * @author Konstantin Bachem

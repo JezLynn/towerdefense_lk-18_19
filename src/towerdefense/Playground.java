@@ -1,6 +1,5 @@
-/**
+package towerdefense; /**
  * Beschreibung
- * Anzeige des Spielfeldes
  *
  * @version 1.0 vom 12.12.2018
  * @author Konstantin Bachem
@@ -20,8 +19,8 @@ public class Playground {
     ArrayList<Particle> Particles = new ArrayList<Particle>();
 
     /**
-     *Playground wird initialisiert
-     *nimmt ein 2D char Array an was das level darstellt
+     * Playground wird initialisiert
+     * nimmt ein 2D char Array an was das level darstellt
      */
     Playground(char[][] c) {
 
@@ -41,7 +40,7 @@ public class Playground {
     }
 
     /**
-     * erzeugt ein Enemy fÃ¼r dieses spielfeld
+     * erzeugt ein Enemy für dieses spielfeld
      */
     public Enemy newenemy() {
         Enemy E = new Enemy(startx + 0.5, starty + 0.5);
@@ -51,21 +50,21 @@ public class Playground {
     }
 
     /**
-     * fÃ¼gt ein Enemy in dieses spielfeld ein
+     * fügt ein Enemy in dieses spielfeld ein
      */
     public void add(Enemy E) {
         Enemys.add(E);
     }
 
     /**
-     * fÃ¼gt ein Enemy in dieses spielfeld ein
+     * fügt ein Enemy in dieses spielfeld ein
      */
     public void add(Tower T) {
         Towers.add(T);
     }
 
     /**
-     * fÃ¼gt ein Turm in dieses spielfeld ein
+     * fügt ein Turm in dieses spielfeld ein
      */
     public static String[] dateilesen(String pfad) {
         try {
@@ -124,7 +123,7 @@ public class Playground {
                 i--;
             }
 
-            //if(P instanceof line){}//TODO
+            //if(P instanceof towerdefense.grafikelemente.Line){}//TODO
         }
     }
 

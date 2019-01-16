@@ -1,18 +1,21 @@
 /**
   *
   * Beschreibung Objekt eines Turms mit allen wichtigen Attributen und Funktionen/Methoden
-  * Die Standartklasse für Verteidigungstürme
   *
   * @version 1.0 vom 12.12.2018
   * @author Konstantin Bachem
   */
    
+import grafikelemente.Grafikelemente;
+import grafikelemente.Circle;
+import grafikelemente.Line;
+
 import java.util.ArrayList;
 public class Tower {
   
   // Anfang Attribute
   Playground playground;
-  grafikelemente G;
+  Grafikelemente G;
 
   double range=2;             //Reichweite des Turms
   int reload=6;             //Nachladezeit des  Turms in ticks
@@ -35,7 +38,7 @@ public class Tower {
   Tower(Punkt position,Playground playground) {
     this.position=position;
     this.playground=playground;
-    this.G=new circle(position,0.3);
+    this.G=new Circle(position,0.3);
   }
   
   // Anfang Methoden
@@ -55,7 +58,7 @@ public class Tower {
       }
       if(target!=null && inrange(target)){
         shoot();
-        playground.Particles.add(new Particle(10,new line(position,target.position.copy())));
+        playground.Particles.add(new Particle(10,new Line(position,target.position.copy())));
         laden=0;
       }                                                     //TODO
       

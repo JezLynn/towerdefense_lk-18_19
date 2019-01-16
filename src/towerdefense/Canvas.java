@@ -1,3 +1,5 @@
+package towerdefense;
+
 /**
   *
   * Beschreibung
@@ -6,11 +8,11 @@
   * @author 
   */
 
-public class Player {
+public class Canvas {
   
   // Anfang Attribute
   // Ende Attribute
   
   // Anfang Methoden
   // Ende Methoden
-} // end of Player
+} // end of Canvas

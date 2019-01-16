@@ -1,14 +1,16 @@
-/**
+package towerdefense; /**
   *
   * Beschreibung
   *
   * @version 1.0 vom 12.12.2018
   * @author 
   */
- import java.awt.Graphics;
- import java.awt.Color; 
+ import towerdefense.grafikelemente.Grafikelemente;
+
 public class Enemy implements pos{
   //  boolean active=false;
+  Grafikelemente G;
+
   int speed=1;
   double schrittweite=0.05;
   int zoom=10;

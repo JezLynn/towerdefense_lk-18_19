@@ -1,7 +1,6 @@
 /**
  *
  * Beschreibung
- * eine koordinate auf dem Spielfeld
  *
  * @version 1.0 vom 14.12.2018
  * @author Konstantin Bachem
