@@ -1,6 +1,7 @@
 /**
   *
   * Beschreibung
+  * Enemy ist die Standartklasse für einen Gegner
   *
   * @version 1.0 vom 12.12.2018
   * @author 
