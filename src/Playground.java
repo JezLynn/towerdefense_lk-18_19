@@ -1,5 +1,6 @@
 /**
  * Beschreibung
+ * Anzeige des Spielfeldes
  *
  * @version 1.0 vom 12.12.2018
  * @author Konstantin Bachem
@@ -40,7 +41,7 @@ public class Playground {
     }
 
     /**
-     * erzeugt ein Enemy für dieses spielfeld
+     * erzeugt ein Enemy fÃ¼r dieses spielfeld
      */
     public Enemy newenemy() {
         Enemy E = new Enemy(startx + 0.5, starty + 0.5);
@@ -50,21 +51,21 @@ public class Playground {
     }
 
     /**
-     * fügt ein Enemy in dieses spielfeld ein
+     * fÃ¼gt ein Enemy in dieses spielfeld ein
      */
     public void add(Enemy E) {
         Enemys.add(E);
     }
 
     /**
-     * fügt ein Enemy in dieses spielfeld ein
+     * fÃ¼gt ein Enemy in dieses spielfeld ein
      */
     public void add(Tower T) {
         Towers.add(T);
     }
 
     /**
-     * fügt ein Turm in dieses spielfeld ein
+     * fÃ¼gt ein Turm in dieses spielfeld ein
      */
     public static String[] dateilesen(String pfad) {
         try {
