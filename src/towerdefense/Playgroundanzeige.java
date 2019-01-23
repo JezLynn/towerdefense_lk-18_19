@@ -1,35 +1,39 @@
 package towerdefense;
 /**
- * Beschreibung
+ * Zeigt alle Elemente an
  *
- * @version 1.0 vom 19.12.2018
+ * @version 1.1 vom 23.1.2018
  * @author Konstantin Bachem
  */
 
-import towerdefense.grafikelemente.Grafikelemente;
-import towerdefense.grafikelemente.Circle;
-import towerdefense.grafikelemente.Line;
+import towerdefense.grafikelemente.*;
 
 import java.awt.*;
 import javax.swing.JPanel;
 import java.util.ArrayList;
-import java.io.*;//dateilesen
+import java.io.*; // dateilesen
 
 public class Playgroundanzeige extends JPanel {
     Color[][] hintergrund;
     int zoom = 23;
     Playground Pground;
 
+    /**
+    * Erstellt eine neue Playgroundanzeige mit dem {@link Playground} ground
+    * und aktualisiert die Farben für die Anzeige 
+    *
+    * @param ground {@link Playground}
+    */
     Playgroundanzeige(Playground ground) {
         this.Pground = ground;
         levelupdate(ground.level);
     }
 
+    
     public static void main(String[] args) {
         Mygui2 gui = new Mygui2();
-
         String[] datei = dateilesen("Levels/level_01.txt");
-        //    String[] datei=dateilesen("level_01.txt");
+        
     /*String[] datei=new String[10];
     datei[0]= "##########";
     datei[1]= "#________#";
@@ -42,72 +46,81 @@ public class Playgroundanzeige extends JPanel {
     datei[8]= "#________#";
     datei[9]= "##########";*/
 
-
         char[][] level = new char[datei.length][]; //eingelesenes level als char array
         for (int i = 0; i < datei.length; i++) {
             level[i] = datei[i].toCharArray();
             System.out.println(datei[i]);
         } // end of for
-        Playground hex = new Playground(level);
+        Playground myPGround = new Playground(level);
         //    gui.s
-        hex.zoom = 23;
+        myPGround.zoom = 23;
         //    hex.zoom=50;
-        Playgroundanzeige anzeige = new Playgroundanzeige(hex);
-        gui.add(anzeige);
-        anzeige.updateUI();
+        Playgroundanzeige myAnzeige = new Playgroundanzeige(myPGround);
+        gui.add(myAnzeige);
+        myAnzeige.updateUI();
 
 
-        Tower T = new Tower(new Punkt(2.5, 2.5), hex);
+        Tower T = new Tower(new Punkt(2.5, 2.5), myPGround);
         T.range = 5;
         T.reload = 10;
 
-        hex.add(T);
+        myPGround.add(T);
 
         int i = 100;
         while (true) {
             if (--i < 0) {
                 i = 1000;
-                hex.add(hex.newenemy());
+                myPGround.add(myPGround.newenemy());
             }
-            hex.update();
-
+            myPGround.update();
             gui.repaint();
             //      if (Math.random()>0.95) {
-            //        hex.add(hex.newenemy());
+            //        myPGround.add(myPGround.newenemy());
             //      } // end of if
-            //      hex.add(hex.newenemy());}
+            //      myPGround.add(myPGround.newenemy());}
             try {
                 //print something here
                 Thread.sleep(10); //sleep
                 //print something else here
             } catch (InterruptedException e) {
-                System.out.println("got interrupted!");
+                System.out.println("Got interrupted!");
             }
-
         } // end of for
-
     } // end of main
 
+    /**
+    * Liest die Datei am Pfad pfad in ein Array,
+    * das die Zeilen beinhaltet, aus
+    * 
+    * @param pfad String
+    * @return String[] datei
+    * @throws IOException
+    */
     public static String[] dateilesen(String pfad) {
         try {
             ArrayList<String> datei = new ArrayList<String>();
-
             BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(pfad), "UTF-8"));
             String zeile = "";
-            while ((zeile = br.readLine()) != null) {
-                datei.add(zeile);
-            }
+            
+            while ((zeile = br.readLine()) != null) { datei.add(zeile); 
             br.close();
+                                                     
             return datei.toArray(new String[datei.size()]);
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
         }
-        return null;
     }
 
+    /**
+    * Aktualsiert die Farben des Hintergrundes,
+    * je nach Zeichen des Levels
+    * 
+    * @param level char[][]
+    */
     public void levelupdate(char[][] level) {
         hintergrund = new Color[level.length][level[0].length];
-        for (int X = 0; X < level[0].length; X++) { //initialisiert das spielfeld d.h.setzt hintergrund farben
+        for (int X = 0; X < level[0].length; X++) {
             for (int Y = 0; Y < level.length; Y++) {
                 Color f = Color.orange;
                 switch (level[Y][X]) {
@@ -137,6 +150,12 @@ public class Playgroundanzeige extends JPanel {
         } // end of for
     }
 
+    /**
+    * Aktualisiert die Grafiken auf der sichtbaren Oberfläche
+    * (Von Swing ausgeführt)
+    * 
+    * @param g {@link Graphics}
+    */
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
@@ -145,7 +164,13 @@ public class Playgroundanzeige extends JPanel {
         painttower(g);
         paintparticle(g);
     }
-    public void painthintergrund(Graphics g){
+    
+    /**
+    * Aktualisiert den Hintergrund auf den sichtbaren Bereich
+    * 
+    * @param g {@link Graphics}
+    */
+    private void painthintergrund(Graphics g){
         boolean rahmen = true;
         for (int X = 0; X < hintergrund[0].length; X++) { //malt das feld
             for (int Y = 0; Y < hintergrund.length; Y++) {
@@ -154,63 +179,65 @@ public class Playgroundanzeige extends JPanel {
                 g.fillRect(X * zoom, Y * zoom, zoom, zoom);
                 g.setColor(Color.BLACK);
                 g.drawRect(X * zoom, Y * zoom, zoom, zoom);
-                //    g.setColor(Color.BLACK);
-                //    g.drawRect(xPos,yPos,width,height);
             } // end of for
         } // end of for
-
-
-        //    for (Enemy E:Enemys) {//malt enemys
-        //      E.paint(g);
-        //    } // end of for
     }
 
-    public void paintparticle(Graphics g) {
+    /**
+    * Aktualisiert die Partikel auf den sichtbaren Bereich
+    * 
+    * @param g {@link Graphics}
+    */
+    private void paintparticle(Graphics g) {
         for (int i = 0; i < Pground.Particles.size(); i++) {
             Particle P = Pground.Particles.get(i);
             draw(P.G, g);
-            //if(P instanceof towerdefense.grafikelemente.Line){}//TODO
         }
     }
 
-    public void paintenemy(Graphics g) {
+    /**
+    * Aktualisiert die Enemys auf den sichtbaren Bereich
+    * 
+    * @param g {@link Graphics}
+    */
+    private void paintenemy(Graphics g) {
         for (int i = 0; i < Pground.Enemys.size(); i++) {
             Enemy E = Pground.Enemys.get(i);
             if (E.aktiv) {
                 g.setColor(Color.YELLOW);
-                //g.fillRect((int)((position.x-0.3)*zoom),(int)((position.y-0.3)*zoom),(int)(2*zoom*0.3),(int)(2*zoom*0.3));  //quadrat
-                draw(E.G, g);    //kreis
+                draw(E.G, g);
             } // end of for
         }
     }
 
-    public void painttower(Graphics g) {
+    /**
+    * Aktualisiert die Türme auf den sichtbaren Bereich
+    * 
+    * @param g {@link Graphics}
+    */
+    private void painttower(Graphics g) {
         for (int i = 0; i < Pground.Towers.size(); i++) {
             Tower T = Pground.Towers.get(i);
 
             g.setColor(Color.BLUE);
             draw(T.G,g);
-            //g.fillRect((int)((position.x-0.3)*zoom),(int)((position.y-0.3)*zoom),(int)(2*zoom*0.3),(int)(2*zoom*0.3));  //quadrat
-            //g.fillOval((int) ((T.position.x - 0.3) * zoom), (int) ((T.position.y - 0.3) * zoom), (int) (2 * zoom * 0.3), (int) (2 * zoom * 0.3));    //kreis
         } // end of for
     }
 
-
-    public void draw(Line Linie, Graphics g) {
-        g.drawLine((int) (Linie.P1.x * zoom), (int) (Linie.P1.y * zoom), (int) (Linie.P2.x * zoom), (int) (Linie.P2.y * zoom));
-    }
-
-    public void draw(Circle Kreis, Graphics g) {
-        g.fillOval((int) ((Kreis.position.x -Kreis.radius) * zoom), (int) ((Kreis.position.y -Kreis.radius) * zoom), (int) (2 * zoom * Kreis.radius), (int) (2 * zoom * Kreis.radius));
-    }
-
-
+    /**
+    * Zeichnet das eingegebene Grafikelement G auf die grafische Ebene g
+    * 
+    * @param G {@link Grafikelemente}
+    * @param g {@link Graphics}
+    */
     public void draw(Grafikelemente G, Graphics g) {
         if (G instanceof Line) {
-            draw((Line) G, g);
+            Line Linie = (Line) G;
+            g.drawLine((int) (Linie.P1.x * zoom), (int) (Linie.P1.y * zoom), (int) (Linie.P2.x * zoom), (int) (Linie.P2.y * zoom));
         } else if (G instanceof Circle) {
-            draw((Circle) G, g);
+            Circle Kreis = (Circle) G;
+            g.fillOval((int) ((Kreis.position.x -Kreis.radius) * zoom), (int) ((Kreis.position.y -Kreis.radius) * zoom), (int) (2 * zoom * Kreis.radius), (int) (2 * zoom * Kreis.radius));
         }
     }
-    } // end of class Playgroundanzeige
+} // end of class Playgroundanzeige
 
