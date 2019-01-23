@@ -191,6 +191,7 @@ public class Playgroundanzeige extends JPanel {
     private void paintparticle(Graphics g) {
         for (int i = 0; i < Pground.Particles.size(); i++) {
             Particle P = Pground.Particles.get(i);
+            g.setColor(Color.BLUE);
             draw(P.G, g);
         }
     }
@@ -218,7 +219,6 @@ public class Playgroundanzeige extends JPanel {
     private void painttower(Graphics g) {
         for (int i = 0; i < Pground.Towers.size(); i++) {
             Tower T = Pground.Towers.get(i);
-
             g.setColor(Color.BLUE);
             draw(T.G,g);
         } // end of for
