@@ -6,9 +6,8 @@ package towerdefense; /**
   * @author Konstantin Bachem
   */
    
-import towerdefense.grafikelemente.Grafikelemente;
-import towerdefense.grafikelemente.Circle;
-import towerdefense.grafikelemente.Line;
+import towerdefense.grafikelemente.*;
+
 
 import java.util.ArrayList;
 public class Tower {
