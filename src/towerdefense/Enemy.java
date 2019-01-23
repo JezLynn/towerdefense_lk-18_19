@@ -1,89 +1,119 @@
 package towerdefense;
 /**
   *
-  * Beschreibung
+  * Beschreibung:
+  * Die Hauptklasse für einen Enemy
   *
   * @version 1.0 vom 12.12.2018
   * @author 
   */
- import towerdefense.grafikelemente.Circle;
- import towerdefense.grafikelemente.Grafikelemente;
+ import towerdefense.grafikelemente.*;
 
 public class Enemy implements pos{
-  //  boolean active=false;
-  Grafikelemente G;
-
-  int speed=1;
-  double schrittweite=0.05;
-  int zoom=10;
+ 
+  Grafikelemente G; //Welche Grafik hat der Enemy
   
-  Punkt position; //position
-  int HP=100;
-  boolean ziel=false;
-  boolean dead=true;
-  boolean aktiv=true;
 
-  public Punkt getPos(){return this.position;}
-  //char[][] level;
-  Enemy(double x,double y){//,char[][] level){
-   position=new Punkt(x,y);//this.level=level;
-//  this.x=x;this.y=y;
-    this.G=new Circle(position,0.3);
+  int speed=1;  //Geschwindigkeit der Schritte 
+  double schrittweite=0.05;  //Länge der Schritte
+  int zoom=10; // !!Kann möglicherweise weg!!
+  
+  Punkt position;  //Speichere die Position
+  int HP=100;
+  boolean ziel=false; //ist das Ziel erreicht
+  boolean dead=false;
+  boolean aktiv=true;
+  
+  /**
+  * Konstruktor des Enemys
+  * Parameter Koordinaten für Position
+  */
+  Enemy(double x,double y){
+   position=new Punkt(x,y);
+   this.G=new Circle(position,0.3);
   }
+ 
+  /**
+  *Get-Methode für die Position
+  */
+  public Punkt getPos(){
+   return this.position;
+  }
+ 
+  /**
+  * Teste ob der Enemy tot ist
+  */
   public void update(){
     if(HP<=0){
       aktiv=false;
       dead=true;
     }
   }
-  public int getxpixel(){return (int)(zoom*position.x); }//position in pixeln
-  public int getypixel(){return (int)(zoom*position.y); }
+ 
+  public int getxpixel(){ // !!Kann möglicherweise weg!!
+   return (int)(zoom*position.x); 
+  }
+ 
+  public int getypixel(){ // !!Kann möglicherweise weg!!
+   return (int)(zoom*position.y); 
+  }
 
-  
-  public void move(char[][] level){ //bewegt den enemy
-    //    if (!active) {
-    //      return false;
-    //    } // end of if
+  /**
+  * bewegt den Enemy abhängig von den Pfeilen auf dem Playground
+  *
+  *Parameter @level enthält einen char mit der Karte mit Pfeilen für die Bewegungsrichtung des Enemys 
+  */
+  public void move(char[][] level){ 
     for (int i=0;i<speed ;i++ ) {
-      //System.out.println(1.0*position.x/zoom+"x y"+1.0*position.y/zoom);
+
       int X=(int)(position.x);
       int Y=(int)(position.y);
-      Vektor v=new Vektor();
+      Vektor v=new Vektor(); //wohin geht der Enemy
      
-      double dx=-2*(position.x-X-0.5)*schrittweite; // sorgt daf�r das enemy in der mitte des weges ist
+      double dx=-2*(position.x-X-0.5)*schrittweite; // Enemy bewegt sich richtung Mitte des Weges
       double dy=-2*(position.y-Y-0.5)*schrittweite;
   
-//      System.out.println(level[Y][X]);
-      switch (level[Y][X]) {
-        case  '>'://position.x+=schrittweite;position.y+=dy;
-        v.sety(true,dy,schrittweite);     
-        break;
-        case  '<'://position.x-=schrittweite;position.y+=dy;  
-        v.sety(false,dy,schrittweite);   
-        break;
-        case  'v'://position.y+=schrittweite;position.x+=dx;  
-        v.setx(dx,true,schrittweite);
-        break;
-        case  '^'://position.y-=schrittweite;position.x+=dx;   
-        v.setx(dx,false,schrittweite);
-        break;
-//        break;
-        case  'X':ziel=true;aktiv=false;
-        break;
+      switch (level[Y][X]) { //für jedes Zeichen auf dem der Enemy ist wird eine Richtung bestimmt
+        case  '>':
+         v.sety(true,dy,schrittweite);     
+         break;
+        case  '<':
+         v.sety(false,dy,schrittweite);   
+         break;
+        case  'v':
+         v.setx(dx,true,schrittweite);
+         break;
+        case  '^':
+         v.setx(dx,false,schrittweite);
+         break;
+        case  'X':ziel=true;aktiv=false; //beim Ziel muss der Enemy sich nicht mehr bewegen
+         break;
         default:
         
         
-        char c;
+        char c; //angrenzendes Feld, da beim Anfang die Richtung unbekannt ist
         
-        c=level[Y+1][X];
-        if(c=='>'||c=='<'||c=='v'||c=='^'){ v.setx(dx,true,schrittweite);break;}
+        c=level[Y+1][X]; //für jedes angrenzende Feld wird getestet ob es eine Richtung ist
+        if(c=='>'||c=='<'||c=='v'||c=='^'){
+         v.setx(dx,true,schrittweite);
+         break;
+        }
         c=level[Y-1][X];
-        if(c=='>'||c=='<'||c=='v'||c=='^'){ v.setx(dx,false,schrittweite);break;}
+        if(c=='>'||c=='<'||c=='v'||c=='^'){
+         v.setx(dx,false,schrittweite);
+         break;
+        }
         c=level[Y][X+1];
-        if(c=='>'||c=='<'||c=='v'||c=='^'){v.sety(true,dy,schrittweite);     break;}
+        if(c=='>'||c=='<'||c=='v'||c=='^'){
+         v.sety(true,dy,schrittweite);     
+         break;
+        }
         c=level[Y][X-1];
-        if(c=='>'||c=='<'||c=='v'||c=='^'){v.sety(false,dy,schrittweite);     break;}
-        break;   
+        if(c=='>'||c=='<'||c=='v'||c=='^'){
+         v.sety(false,dy,schrittweite);     
+         break;
+        }
+        break;   //hier muss eine Fehlermeldung rein
       
       } // end of switch
             
