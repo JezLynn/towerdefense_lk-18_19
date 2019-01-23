@@ -44,7 +44,6 @@ public class Playground {
      */
     public Enemy newenemy() {
         Enemy E = new Enemy(startx + 0.5, starty + 0.5);
-        E.zoom = zoom;
         E.speed = 1;
         return E;
     }

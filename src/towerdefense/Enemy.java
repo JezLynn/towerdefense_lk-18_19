@@ -16,7 +16,7 @@ public class Enemy implements pos{
 
   int speed=1;  //Geschwindigkeit der Schritte 
   double schrittweite=0.05;  //Länge der Schritte
-  int zoom=10; // !!Kann möglicherweise weg!!
+ 
   
   Punkt position;  //Speichere die Position
   int HP=100;
@@ -50,13 +50,7 @@ public class Enemy implements pos{
     }
   }
  
-  public int getxpixel(){ // !!Kann möglicherweise weg!!
-   return (int)(zoom*position.x); 
-  }
- 
-  public int getypixel(){ // !!Kann möglicherweise weg!!
-   return (int)(zoom*position.y); 
-  }
+
 
   /**
   * bewegt den Enemy abhängig von den Pfeilen auf dem Playground
