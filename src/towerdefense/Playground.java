@@ -32,6 +32,7 @@ public class Playground {
                 if (c[Y][X] == 'S') {
                     startx = X;
                     starty = Y;
+
                 } // end of if
 
             } // end of for

@@ -51,7 +51,10 @@ public class Playgroundanzeige extends JPanel {
             level[i] = datei[i].toCharArray();
             System.out.println(datei[i]);
         } // end of for
+        //System.out.println(datei.length);
+
         Playground myPGround = new Playground(level);
+        //System.out.println(myPGround.startx+" "+myPGround.starty);
         //    gui.s
         myPGround.zoom = 23;
         //    hex.zoom=50;
@@ -101,15 +104,15 @@ public class Playgroundanzeige extends JPanel {
             ArrayList<String> datei = new ArrayList<String>();
             BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(pfad), "UTF-8"));
             String zeile = "";
-            
-            while ((zeile = br.readLine()) != null) { datei.add(zeile); 
+            while ((zeile = br.readLine()) != null) {
+                datei.add(zeile);
+            }
             br.close();
-                                                     
             return datei.toArray(new String[datei.size()]);
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
         }
+        return null;
     }
 
     /**

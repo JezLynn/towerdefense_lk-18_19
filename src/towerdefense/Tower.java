@@ -75,7 +75,7 @@ public class Tower {
   public ArrayList<Enemy> inrange( ArrayList<Enemy> Enemys){
     ArrayList<Enemy> Enemyinrange = new ArrayList<Enemy>();
     for (Enemy enemy : Enemys) {
-      if (enemy.position.distance(this.position) < this.range) { Enemyinrange.add(enemy) };
+      if (enemy.position.distance(this.position) < this.range) { Enemyinrange.add(enemy); };
     } // end of for
     if(Enemyinrange.size()==0) { return null; }
     else { return Enemyinrange;}
