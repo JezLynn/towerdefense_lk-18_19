@@ -12,6 +12,7 @@ package towerdefense;
 public class Enemy implements pos{
  
   Grafikelemente G; //Welche Grafik hat der Enemy
+  String path="Grafiken/swolo.png"; //DAteipfad für die Position des Bildes
   
 
   int speed=1;  //Geschwindigkeit der Schritte 
@@ -30,7 +31,7 @@ public class Enemy implements pos{
   */
   Enemy(double x,double y){
    position=new Punkt(x,y);
-   this.G=new Circle(position,0.3);
+   this.G=new Image(position,path,5);
   }
  
   /**
