@@ -7,6 +7,7 @@ package towerdefense;
  */
 
 import towerdefense.grafikelemente.*;
+import towerdefense.grafikelemente.Image;
 
 import java.awt.*;
 import javax.swing.JPanel;
@@ -17,6 +18,8 @@ public class Playgroundanzeige extends JPanel {
     Color[][] hintergrund;
     int zoom = 23;
     Playground Pground;
+
+
 
     /**
     * Erstellt eine neue Playgroundanzeige mit dem {@link Playground} ground
@@ -240,6 +243,9 @@ public class Playgroundanzeige extends JPanel {
         } else if (G instanceof Circle) {
             Circle Kreis = (Circle) G;
             g.fillOval((int) ((Kreis.position.x -Kreis.radius) * zoom), (int) ((Kreis.position.y -Kreis.radius) * zoom), (int) (2 * zoom * Kreis.radius), (int) (2 * zoom * Kreis.radius));
+        } else if (G instanceof Image) {
+            Image Bild =(Image) G;
+            g.drawImage(Bild.png,(int)Bild.position.x,(int)Bild.position.y,Bild.size,Bild.size,this);
         }
     }
 } // end of class Playgroundanzeige
