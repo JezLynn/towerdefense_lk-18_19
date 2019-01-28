@@ -25,12 +25,12 @@ public class Player {
   this.Geld = this.Geld + Betrag;
  } 
  
- pulic int getGeld(){
+ public int getGeld(){
   return this.Geld;
  } 
  
  public boolean removeGeld(int Betrag){
-  if (this.geld >= Betrag){
+  if (this.Geld >= Betrag){
    this.Geld = this.Geld-Betrag;
    return true;
   } else {
@@ -40,7 +40,7 @@ public class Player {
  
  public boolean decreaseLebenspunkte(int Abzug){
   this.Lebenspunkte = this.Lebenspunkte - Abzug;
-  if (this.Lebenspunkte > 0)
+  if (this.Lebenspunkte > 0) {
    return true;
   } else {
    return false;
