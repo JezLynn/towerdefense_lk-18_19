@@ -14,6 +14,7 @@ public class Image extends Grafikelemente {
     public Punkt position;
     public java.awt.Image png;
     public int size;
+    public double ofsetx=0,ofsety=0;
 
 
 
@@ -22,7 +23,8 @@ public class Image extends Grafikelemente {
         //Toolkit t=Toolkit.getDefaultToolkit();
         //png=t.getImage(path);
         this.size=size;
-
+        ofsetx=size/2.0;
+        ofsety=size/2.0;
         png = ImageIO.read(new File(path));
     }
 }
