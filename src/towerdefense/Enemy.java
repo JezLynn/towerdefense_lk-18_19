@@ -21,6 +21,7 @@ public class Enemy implements pos{
   
   Punkt position;  //Speichere die Position
   int HP=100;
+  int damage = 10;
   boolean ziel=false; //ist das Ziel erreicht
   boolean dead=false;
   boolean aktiv=true;
