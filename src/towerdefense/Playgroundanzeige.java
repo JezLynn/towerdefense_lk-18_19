@@ -75,7 +75,7 @@ public class Playgroundanzeige extends JPanel {
         int i = 100;
         while (true) {
             if (--i < 0) {
-                i = 1000;
+                i = 100;
                 myPGround.add(myPGround.newenemy());
             }
             myPGround.update();
@@ -86,7 +86,7 @@ public class Playgroundanzeige extends JPanel {
             //      myPGround.add(myPGround.newenemy());}
             try {
                 //print something here
-                Thread.sleep(10); //sleep
+                Thread.sleep(30); //sleep
                 //print something else here
             } catch (InterruptedException e) {
                 System.out.println("Got interrupted!");
@@ -245,7 +245,9 @@ public class Playgroundanzeige extends JPanel {
             g.fillOval((int) ((Kreis.position.x -Kreis.radius) * zoom), (int) ((Kreis.position.y -Kreis.radius) * zoom), (int) (2 * zoom * Kreis.radius), (int) (2 * zoom * Kreis.radius));
         } else if (G instanceof Image) {
             Image Bild =(Image) G;
-            g.drawImage(Bild.png,(int)Bild.position.x,(int)Bild.position.y,Bild.size,Bild.size,this);
+
+            g.drawImage(Bild.png,(int)((Bild.position.x-Bild.size/2.0)* zoom),(int)((Bild.position.y-Bild.size/2.0)* zoom),Bild.size* zoom,Bild.size* zoom,null);
+            //g.drawImage(Bild.png,(int)Bild.position.x* zoom,(int)Bild.position.y* zoom,Bild.size,Bild.size,null);
         }
     }
 } // end of class Playgroundanzeige
