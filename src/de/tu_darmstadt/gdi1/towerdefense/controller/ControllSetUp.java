@@ -1,6 +1,3 @@
-/**
- * 
- */
 package de.tu_darmstadt.gdi1.towerdefense.controller;
 
 import org.newdawn.slick.Input;
@@ -142,23 +139,25 @@ public class ControllSetUp {
 					b.createField();
 					b.makeFile();
 					
-			} if (getLOD.equals("easy")) {
+			}
+			switch (getLOD) {
+				case "easy":
 					MainMenuState.game = new GameEngine(1, 60, 60, level);
 					GameState.Map.putAll(GuiObject.getGuiMap());
 					MainMenuState.game.StartGame();
 					GameState.setInitMoney(60);
 					GameState.setInitLP(60);
 					return true;
-					
-			} else if (getLOD.equals("medium")) {
+
+				case "medium":
 					MainMenuState.game = new GameEngine(2, 30, 50, level);
 					GameState.Map.putAll(GuiObject.getGuiMap());
 					MainMenuState.game.StartGame();
 					GameState.setInitMoney(50);
 					GameState.setInitLP(30);
 					return true;
-					
-			} else if (getLOD.equals("hard")) {
+
+				case "hard":
 					MainMenuState.game = new GameEngine(2, 15, 30, level);
 					GameState.Map.putAll(GuiObject.getGuiMap());
 					MainMenuState.game.StartGame();

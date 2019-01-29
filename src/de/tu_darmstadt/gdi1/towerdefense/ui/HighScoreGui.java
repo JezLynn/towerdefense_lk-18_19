@@ -1,6 +1,3 @@
-/**
- * 
- */
 package de.tu_darmstadt.gdi1.towerdefense.ui;
 
 import org.newdawn.slick.GameContainer;
@@ -19,7 +16,7 @@ import de.tu_darmstadt.gdi1.towerdefense.highscore.HighScore;
  */
 public class HighScoreGui extends BasicGameState {
 
-	int stateID = -1;
+	private int stateID;
 	private Image back;
 	
 	/**
@@ -45,8 +42,7 @@ public class HighScoreGui extends BasicGameState {
 	 * @see org.newdawn.slick.state.GameState#render(org.newdawn.slick.GameContainer, org.newdawn.slick.state.StateBasedGame, org.newdawn.slick.Graphics)
 	 */
 	@Override
-	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
-			throws SlickException {
+	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
 		
 		back.draw(0, 0);
 		g.drawString("HIGHSCORE", 200, 200);
@@ -55,7 +51,7 @@ public class HighScoreGui extends BasicGameState {
 		int size = a.listHighscore.size();
 		for (int i=0; i<size; i++){
 		g.drawString(a.listHighscore.get(size-1-i).getName(), 200, 250+i*20);
-		g.drawString(""+a.listHighscore.get(size-1-i).getScore().intValue(), 350, 250+i*20);
+		g.drawString(""+ a.listHighscore.get(size - 1 - i).getScore(), 350, 250+i*20);
 		}
 	}
 
@@ -63,8 +59,7 @@ public class HighScoreGui extends BasicGameState {
 	 * @see org.newdawn.slick.state.GameState#update(org.newdawn.slick.GameContainer, org.newdawn.slick.state.StateBasedGame, int)
 	 */
 	@Override
-	public void update(GameContainer gc, StateBasedGame sbg, int delta)
-			throws SlickException {
+	public void update(GameContainer gc, StateBasedGame sbg, int delta) {
 		
 		Input mc = gc.getInput();
 		int mouseX = mc.getMouseX();

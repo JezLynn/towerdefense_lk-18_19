@@ -8,7 +8,7 @@
 	public class GuiObject {
 
 		static public int pictureSize = 48;
-		static public Map<String, Point> GuiObjectMap = new HashMap<String, Point>();
+		static public Map<String, Point> GuiObjectMap = new HashMap<>();
 
 		/**
 		 * Constructor of the Class
@@ -18,7 +18,7 @@
 		 * @param x the x Coordinate
 		 * @param y the y Coordinate
 		 */
-		public GuiObject(String name, int x, int y) {
+		GuiObject(String name, int x, int y) {
 			GuiObjectMap.put(name, new Point(x * pictureSize, y * pictureSize));
 		}
 		
@@ -49,9 +49,9 @@
 		 * @param name the Key to get the Value
 		 * @return the mid x Coordinate
 		 */
-		public static double getmidX(String name) // return int x
+		static double getmidX(String name) // return int x
 		{
-			return (GuiObjectMap.get(name).getX()+(pictureSize/2));
+			return (GuiObjectMap.get(name).getX()+(pictureSize/2f));
 		}
 		
 		/**
@@ -59,9 +59,9 @@
 		 * @param name the Key to get the Value
 		 * @return the mid y Coordinate
 		 */
-		public static double getmidY(String name) // return int x
+		static double getmidY(String name) // return int x
 		{
-			return (GuiObjectMap.get(name).getY()+(pictureSize/2));
+			return (GuiObjectMap.get(name).getY()+(pictureSize/2f));
 		}
 
 		/**
@@ -96,14 +96,13 @@
 		public static String getKey(Map<String, Point> map, Point value,
 				float scale) {
 			String s = null;
-			for (Iterator<String> it = map.keySet().iterator(); it.hasNext();) {
-				String teil = it.next();
+			for (String teil : map.keySet()) {
 				Point guiPoint = map.get(teil);
 
-				if ((guiPoint.getX() * scale <= value.getX() && 
-						(guiPoint.getX() + pictureSize) * scale >= value.getX()) && 
-						(guiPoint.getY() * scale <= value.getY() && 
-							(guiPoint.getY() + pictureSize) * scale >= value.getY())) {
+				if ((guiPoint.getX() * scale <= value.getX() &&
+						(guiPoint.getX() + pictureSize) * scale >= value.getX()) &&
+						(guiPoint.getY() * scale <= value.getY() &&
+								(guiPoint.getY() + pictureSize) * scale >= value.getY())) {
 					s = teil;
 				}
 			}

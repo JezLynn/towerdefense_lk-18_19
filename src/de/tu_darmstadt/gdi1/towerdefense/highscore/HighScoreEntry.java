@@ -9,11 +9,10 @@ package de.tu_darmstadt.gdi1.towerdefense.highscore;
  */
 public class HighScoreEntry implements Comparable<HighScoreEntry> {
 
-	String name;
-	Integer score;
-	Integer kills;
+	private String name;
+	private Integer score;
 
-	public HighScoreEntry(String name, Integer score) {
+	HighScoreEntry(String name, Integer score) {
 		this.name = name;
 		this.score = score;
 	}

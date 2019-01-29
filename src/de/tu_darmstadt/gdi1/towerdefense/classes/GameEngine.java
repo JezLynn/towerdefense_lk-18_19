@@ -18,20 +18,20 @@ import de.tu_darmstadt.gdi1.towerdefense.ui.MainMenuState;
  */
 public class GameEngine {
 	//>>>>>Constructor>>>
-	int Level; int LifePoints; public int Gold ; public char[][] GameMap;	
+	private int Level; private int LifePoints; public int Gold ; public char[][] GameMap;
 	
 	//>>>>>Game>>>>>>>>>>
 	public int StartPoints = 0;
 	public int[][] Start ; //= new int [2][1]
-	public char[][] Way ; // einmal weg in array, Monster steps zählen und an die position im way weiter
+	private char[][] Way ; // einmal weg in array, Monster steps zählen und an die position im way weiter
 	public int NumbMonster=0; //Counter
 	public int Wave =0; //Starts with wave 1 
 
 		
 	//>>>>>Monster&Tower>
-	public static Map<String, Monster> monsterMap = new HashMap<String, Monster>();
-	public static Map<String, Tower> towerMap = new HashMap<String, Tower>();
-	int counterDelay = 0;
+	public static Map<String, Monster> monsterMap = new HashMap<>();
+	public static Map<String, Tower> towerMap = new HashMap<>();
+	private int counterDelay = 0;
 	public int counterT = 0;	
 	
 	/**
@@ -57,7 +57,6 @@ public class GameEngine {
 		}
 		StartPoints = parser.startPointsCounter;
 
-		parser=null;
 	}
 	/**
 	 * 
@@ -119,7 +118,7 @@ public class GameEngine {
 		/**
 		 *  Checks start and creats Start Points for certain map	
 		 */
-	public void checkStart() //Finds Start Points in an array and saves start Points 
+		private void checkStart() //Finds Start Points in an array and saves start Points
 	{
 		Start = new int[2][StartPoints];		
 		int StartCount = StartPoints-1;
@@ -159,7 +158,7 @@ public class GameEngine {
 	 */
 	public void makeRoad()
 	{
-		char tempWay[][]= new char[StartPoints][100]; //Because array needs certain size
+		char[][] tempWay = new char[StartPoints][100]; //Because array needs certain size
 		
 		
 		for(int z=0; z<StartPoints; z++) //Creates Road for -ALL- Starts
@@ -185,7 +184,7 @@ public class GameEngine {
 				default: 
 				}
 				step++;
-			}while(stop==false);
+			}while(!stop);
 			
 			//Builds road with tempWay for certain Resolution
 			int picSize= GuiObject.pictureSize;
@@ -307,7 +306,7 @@ public class GameEngine {
 	 * 
 	 * @param name Removes monster if it reached finish
 	 */
-	public void MonsterFinish(String name)
+	private void MonsterFinish(String name)
 	{
 		LifePoints--;	//LifePoints -1	
 		GuiObject.GuiObjectMap.remove(name);
@@ -362,7 +361,7 @@ public class GameEngine {
 			{
 			Tower OtowerX= towerMap.get("tower"+t);
 			OtowerX.setStatus(true); //can tower shoot??
-			if(OtowerX.getStatus()==true)
+			if(OtowerX.getStatus())
 			{	GuiObject.GuiObjectMap.remove("hit"+t);			
 
 			for(int m=1; m<=NumbMonster; m++) //Tower is able to shoot--is there a monster?
@@ -397,7 +396,7 @@ public class GameEngine {
 				}
 				else
 				{
-					if(type=='p' && OmonsterX.durable==true) 
+					if(type=='p' && OmonsterX.durable)
 				    {				        
 				    	OmonsterX.updateLifepoints(-1);
 				    	if(OmonsterX.getLifepoints()<=0) killmonster(monsterX);			    	
@@ -417,10 +416,10 @@ public class GameEngine {
 	 * Kills monster and removes objects
 	 * @param monsterX  name of monster to be killed
 	 */
-	
-	public void killmonster(String monsterX)
+
+	private void killmonster(String monsterX)
 	{
-		String n = monsterX.substring(monsterX.indexOf("r")+1, monsterX.length());
+		String n = monsterX.substring(monsterX.indexOf("r")+1);
 		GuiObject.GuiObjectMap.remove("hit" + n);
 		Gold=Gold+monsterMap.get(monsterX).getProfit();
 		monsterMap.remove(monsterX);
@@ -441,11 +440,8 @@ public class GameEngine {
      */
 	public boolean GameWon()
 	{
-		if(Wave==11)
-		{
-			return true;//--> wenn alle 10 wellen vorbei sind
-		}
-		return false; 
+		//--> wenn alle 10 wellen vorbei sind
+		return Wave == 11;
 	}
 	/**
 	 * Tells if wave is over
@@ -476,10 +472,6 @@ public class GameEngine {
 		GameState.gameLost=false;
 		GameState.gameWon=false;
 		GameState.sound.stop();
-//		counterDelay=0;
-//		counterT=0;		
-//		Level=0;
-//		StartPoints=0;
 	}
 	/**
 	 * Starts the game and check Starts and make road for monsters

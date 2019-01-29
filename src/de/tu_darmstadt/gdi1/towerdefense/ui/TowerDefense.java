@@ -1,6 +1,3 @@
-/**
- * Source: http://slick.cokeandcode.com/wiki/doku.php?id=02_-_slickblocks
- */
 package de.tu_darmstadt.gdi1.towerdefense.ui;
 
 import org.newdawn.slick.AppGameContainer;
@@ -15,13 +12,12 @@ import org.newdawn.slick.state.StateBasedGame;
  */
 public class TowerDefense extends StateBasedGame {
 
-	public static final int mainMenu = 0;
+	static final int mainMenu = 0;
 	public static final int game = 1;
-	public static final int high = 2;
-	public static final int tut = 3;
-	
-	
-	public TowerDefense(){
+	static final int high = 2;
+
+
+	private TowerDefense(){
 		super("Tower Defense");
 		this.addState(new MainMenuState(mainMenu));
 		this.addState(new GameState(game));

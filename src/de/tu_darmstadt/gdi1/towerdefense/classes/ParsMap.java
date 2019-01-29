@@ -9,12 +9,11 @@ import de.tu_darmstadt.gdi1.towerdefense.exceptions.SyntaxNotCorrectException;
 import de.tu_darmstadt.gdi1.towerdefense.ui.GameState;
 
 	public class ParsMap {
-		public char parsedMap[][];
-		char ch;
+		public char[][] parsedMap;
 		public int startPointsCounter = 0;
-		public int destinationPointsCounter = 0;
-		int counter = 0;
-		public static int startcounter = 0;
+		private int destinationPointsCounter = 0;
+		private int counter = 0;
+		static int startcounter = 0;
 
 		/*
 		 * (non-javadoc)
@@ -25,16 +24,14 @@ import de.tu_darmstadt.gdi1.towerdefense.ui.GameState;
 		 * Makes a String from a textfile
 		 * 
 		 * @return char[][] with all symbols of the textfile
-		 * @return String with the chars from the textfile
-		 * @throws IOException
 		 */
-		public char[][] reading(String a) {
+		char[][] reading(String a) {
 			int i = 0;
 			int j = 0;
 			int z = 0;
 			try {
 				BufferedReader in = new BufferedReader(new FileReader(a));
-				String zeile = null;
+				String zeile;
 				StringBuilder sb = new StringBuilder();
 				while ((zeile = in.readLine()) != null) {
 					sb.append(zeile).append("\n");
@@ -56,7 +53,6 @@ import de.tu_darmstadt.gdi1.towerdefense.ui.GameState;
 					GameState.setScale(1);
 
 				stringToArray(sb.toString());
-				sb = null;
 
 			} catch (IOException e) {
 				System.out.println("Cannot open " + e);
@@ -78,14 +74,15 @@ import de.tu_darmstadt.gdi1.towerdefense.ui.GameState;
 			for (int i = 0; i < map.length(); i++) {
 				if (map.substring(i, i + 1).equals("\n")) {
 					for (int k = 0; k < ch; ++k) {
-						parsedMap[j][k] = map.charAt((i + 1) - (ch + 1) + k);
+						char charAt = map.charAt((i + 1) - (ch + 1) + k);
+						parsedMap[j][k] = charAt;
 
-						// zählen der Startpunkte
-						if (map.charAt((i + 1) - (ch + 1) + k) == 'S') {
+						// zï¿½hlen der Startpunkte
+						if (charAt == 'S') {
 							startPointsCounter++;
 						}
-						// zählen der Zielpunkte
-						else if (map.charAt((i + 1) - (ch + 1) + k) == 'X') {
+						// zï¿½hlen der Zielpunkte
+						else if (charAt == 'X') {
 							destinationPointsCounter++;
 						}
 
@@ -107,7 +104,7 @@ import de.tu_darmstadt.gdi1.towerdefense.ui.GameState;
 		 * @return String with values of 2-dim-array (parsedMap)
 		 */
 		public String toString() {
-			StringBuffer sb = new StringBuffer();
+			StringBuilder sb = new StringBuilder();
 			for (int i = 0; i < parsedMap.length; i++) {
 				if(i+1< parsedMap.length){
 					for (int j = 0; j < parsedMap[i].length; j++) {
@@ -128,55 +125,48 @@ import de.tu_darmstadt.gdi1.towerdefense.ui.GameState;
 		 * Checks: is the syntax of the textfile correct? Checks: is there min
 		 * one starting Point Checks: is there exactly one destination Point
 		 * 
-		 * @return false -> Syntax wrong
-		 * @return true -> Syntax right
-		 * 
-		 * @param startPointCounter : Count of Startpoints in Map
-		 * @param destinationPointsCounter : Count of Destinationpoints in Map
+		 * @return false -> Syntax wrong, true -> Syntax right
 		 * 
 		 * @throws SyntaxNotCorrectException
 		 */
 		public boolean isSyntaxCorrect() throws SyntaxNotCorrectException {
-			boolean a = true;
+			boolean a = false;
 			if (startPointsCounter < 1 || destinationPointsCounter < 1
 					|| startPointsCounter < destinationPointsCounter) {
-				a = false;
 				throw new SyntaxNotCorrectException();
 
 			} else {
 
-				// prüfen ob es einen Pfad vom Start zum Ziel gibt
+				// prï¿½fen ob es einen Pfad vom Start zum Ziel gibt
 				for (int i = 0; i < parsedMap.length; i++) {
-					for (int j = 0; j < parsedMap[0].length; j++) {
-						
-						// prüfen oder der Startpunkt angebunden ist. 0
-						if ((parsedMap[i][j] == 'S' && ((parsedMap[i + 1][j] == 'v'	|| parsedMap[i + 1][j] == '<' || parsedMap[i + 1][j] == '>')
+					// prï¿½fen oder der Startpunkt angebunden ist. 0
+					// end of innner-loop (j)
+					for (int j = 0; j < parsedMap[0].length; j++)
+						if ((parsedMap[i][j] == 'S' && ((parsedMap[i + 1][j] == 'v' || parsedMap[i + 1][j] == '<' || parsedMap[i + 1][j] == '>')
 								|| (parsedMap[i - 1][j] == '^' || parsedMap[i - 1][j] == '<' || parsedMap[i - 1][j] == '>')
 								|| (parsedMap[i][j + 1] == '>' || parsedMap[i][j + 1] == '^' || parsedMap[i][j + 1] == 'v')
 								|| (parsedMap[i][j - 1] == '<' || parsedMap[i][j - 1] == '^' || parsedMap[i][j - 1] == 'v')))
-								// prüfen ob mindestens ein Weg ins Ziel führt
-								|| (parsedMap[i][j] == 'X' && 
-								(parsedMap[i + 1][j] == '^'	|| parsedMap[i - 1][j] == 'v' || parsedMap[i][j - 1] == '>' || parsedMap[i][j + 1] == '<'))
-								// prüfen ob ein '>' immer destiniert.
+								// prï¿½fen ob mindestens ein Weg ins Ziel fï¿½hrt
+								|| (parsedMap[i][j] == 'X' &&
+								(parsedMap[i + 1][j] == '^' || parsedMap[i - 1][j] == 'v' || parsedMap[i][j - 1] == '>' || parsedMap[i][j + 1] == '<'))
+								// prï¿½fen ob ein '>' immer destiniert.
 								|| (parsedMap[i][j] == '>' && (parsedMap[i][j + 1] == '>'
-										|| parsedMap[i][j + 1] == 'v'|| parsedMap[i][j + 1] == '^' || parsedMap[i][j + 1] == 'X'))
-								// prüfen ob ein '<' immer destiniert.
+								|| parsedMap[i][j + 1] == 'v' || parsedMap[i][j + 1] == '^' || parsedMap[i][j + 1] == 'X'))
+								// prï¿½fen ob ein '<' immer destiniert.
 								|| (parsedMap[i][j] == '<' && (parsedMap[i][j - 1] == '<'
-										|| parsedMap[i][j - 1] == 'v' || parsedMap[i][j - 1] == '^' || parsedMap[i][j - 1] == 'X'))
-								// prüfen ob ein 'v' immer destiniert.
+								|| parsedMap[i][j - 1] == 'v' || parsedMap[i][j - 1] == '^' || parsedMap[i][j - 1] == 'X'))
+								// prï¿½fen ob ein 'v' immer destiniert.
 								|| (parsedMap[i][j] == 'v' && (parsedMap[i + 1][j] == 'v'
-										|| parsedMap[i + 1][j] == '<' || parsedMap[i + 1][j] == '>' || parsedMap[i + 1][j] == 'X'))
-								// prüfen ob ein '^' immer destiniert.
+								|| parsedMap[i + 1][j] == '<' || parsedMap[i + 1][j] == '>' || parsedMap[i + 1][j] == 'X'))
+								// prï¿½fen ob ein '^' immer destiniert.
 								|| (parsedMap[i][j] == '^' && (parsedMap[i - 1][j] == '^'
-										|| parsedMap[i - 1][j] == '<' || parsedMap[i - 1][j] == '>' || parsedMap[i - 1][j] == 'X'))
-								// überspringen von # und _
+								|| parsedMap[i - 1][j] == '<' || parsedMap[i - 1][j] == '>' || parsedMap[i - 1][j] == 'X'))
+								// ï¿½berspringen von # und _
 								|| (parsedMap[i][j] == '#' || parsedMap[i][j] == '_' || parsedMap[i][j] == 't')) {
 							a = true;
 						} else {
-							a = false;
 							throw new SyntaxNotCorrectException();
 						}
-					} // end of innner-loop (j)
 				} // end of outer-loop (i)
 			} // end of else
 			return a;
@@ -185,17 +175,12 @@ import de.tu_darmstadt.gdi1.towerdefense.ui.GameState;
 		/**
 		 * Creates from the array (parsedMap) a new 1-dim-array (GuiObject)
 		 * 
-		 * @return :GuiObject with String and the coords for the picture and
-		 *          midpoint
-		 * 
-		 * @param :getStartDrection: direction of Start
-		 * 
 		 * @throws SyntaxNotCorrectException
 		 */
 		public void arrayToGuiObject() throws SyntaxNotCorrectException {
 			Random rand = new Random();
 			
-			if (isSyntaxCorrect() == true) {
+			if (isSyntaxCorrect()) {
 
 				for (int i = 0; i < parsedMap.length; i++) {
 					for (int j = 0; j < parsedMap[0].length; j++) {
@@ -232,13 +217,13 @@ import de.tu_darmstadt.gdi1.towerdefense.ui.GameState;
 							counter++;
 						}
 						// border west-side
-						else if(parsedMap[i][j] == '#' && j == 0  && (i > 0 && i < parsedMap.length-1))
+						else if(parsedMap[i][j] == '#' && j == 0 && i < parsedMap.length - 1)
 						{
 							new GuiObject("border_w" + counter, j, i);
 							counter++;
 						}
 						// border north-side
-						else if (parsedMap[i][j] == '#' && i == 0  && (j > 0 && j < parsedMap[0].length-1))
+						else if (parsedMap[i][j] == '#' && i == 0 && j < parsedMap[0].length - 1)
 						{
 							new GuiObject("border_n" + counter, j, i);
 							counter++;

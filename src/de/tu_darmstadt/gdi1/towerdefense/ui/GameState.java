@@ -1,29 +1,4 @@
-/**
- * 
- */
 package de.tu_darmstadt.gdi1.towerdefense.ui;
-
-import java.awt.Font;
-import java.awt.Point;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
-import org.newdawn.slick.Color;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.Input;
-import org.newdawn.slick.Music;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.Sound;
-import org.newdawn.slick.SpriteSheet;
-import org.newdawn.slick.TrueTypeFont;
-import org.newdawn.slick.geom.Circle;
-import org.newdawn.slick.geom.Rectangle;
-import org.newdawn.slick.gui.TextField;
-import org.newdawn.slick.state.BasicGameState;
-import org.newdawn.slick.state.StateBasedGame;
 
 import de.tu_darmstadt.gdi1.towerdefense.classes.GameEngine;
 import de.tu_darmstadt.gdi1.towerdefense.classes.GuiObject;
@@ -32,6 +7,20 @@ import de.tu_darmstadt.gdi1.towerdefense.highscore.HighScore;
 import de.tu_darmstadt.gdi1.towerdefense.render.RenderMap;
 import de.tu_darmstadt.gdi1.towerdefense.render.RenderObjects;
 import de.tu_darmstadt.gdi1.towerdefense.tower.Tower;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.*;
+import org.newdawn.slick.geom.Circle;
+import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.gui.TextField;
+import org.newdawn.slick.state.BasicGameState;
+import org.newdawn.slick.state.StateBasedGame;
+
+import java.awt.Font;
+import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * <h1>GameState</h1>
@@ -62,8 +51,7 @@ public class GameState extends BasicGameState {
 	private int y; //Height of the GameContainer
 	private static float scale; //the amount of scale for pictures if map is bigger than 16*12
 	private int money; //the amount of money
-	int stateID = -1; //id to find this menu state
-	public int time=0; //counts how often the game is been updated
+	private int stateID; //id to find this menu state
 	private static int initLifepionts; //the lifepoints at the GameStart
 	private static int initMoney; //the money at the GameStart
 	private float lifepionts; //for the life points
@@ -74,13 +62,12 @@ public class GameState extends BasicGameState {
 	private String nameToShort = ""; //come up if the name is to short
 	public static String string; //The String for the Tut
 	public static String skip = "If you know how to play and want to skip the Tutorial play the game.";
-	
-	private Rectangle lps; //Rectangle which visualize the life points
+
 	private Rectangle lpsback; //box for life points
 	private Circle towerRange; //its an circle symbolize the TowerRange
 	
 	
-	public static Map<String, Point> Map = new HashMap<String, Point>(); //saves only the map of the actual game
+	public static Map<String, Point> Map = new HashMap<>(); //saves only the map of the actual game
 	public static Map<String, Point> Objects; //saves the Position of all Objects in the game
 	
 	public static boolean towerChooseVisible = false; //indicates if the TowerChooser is visible
@@ -90,16 +77,15 @@ public class GameState extends BasicGameState {
 	private boolean towerRangeVisible = false; //indicates if the TowerRange is visible
 	private boolean bonusLevelVisible = false; //indicates if the bonusLevel Question is visible
 	private boolean highscoreVisible = false; //indicates if the Highscore Question is visible
-	public static boolean canTowerSet = false; //indicates if you can set a Tower
 	public static boolean gameLost = false; //indicates if Game is Lost
 	public static boolean gameWon = false; //indicates if Game is Won
 	private boolean tutVisible = true; //is the Tutorial visible
-	public static boolean restart = false; //should the Game restart
+	private static boolean restart = false; //should the Game restart
 	private boolean firstTime = false; //checks if the game were restarted after Tut
 	
 	private TextField name;
 	
-	TrueTypeFont uFontTut;
+	private TrueTypeFont uFontTut;
 	/**
 	 * set the state ID to the given value
 	 * 
@@ -204,10 +190,10 @@ public class GameState extends BasicGameState {
 		//initiates the Tower Range Circle
 		towerRange = new Circle(0, 0, 0);
 		
-		Font font = new Font(null, 0, 12);
+		Font font = new Font(null, Font.PLAIN, 12);
 		TrueTypeFont uFont = new TrueTypeFont(font, true);
 		
-		Font fontTut = new Font(null, 0, 25);
+		Font fontTut = new Font(null, Font.PLAIN, 25);
 		uFontTut= new TrueTypeFont(fontTut, true);
 		string = "Welcome to the Tutorial for Tower Defense. Please left click here to continue.";
 		
@@ -220,8 +206,7 @@ public class GameState extends BasicGameState {
 	 * @see org.newdawn.slick.state.GameState#render(org.newdawn.slick.GameContainer, org.newdawn.slick.state.StateBasedGame, org.newdawn.slick.Graphics)
 	 */
 	@Override
-	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
-			throws SlickException {
+	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
 		
 		g.setAntiAlias(true);
 		
@@ -236,21 +221,20 @@ public class GameState extends BasicGameState {
 		
 		 //draw the map it self
 		if (Map != null) {
-			for (Iterator<String> it = Map.keySet().iterator(); it.hasNext();) {
-				String name = it.next();
+			for (String name : Map.keySet()) {
 				RenderMap teil = RenderMap.render(Map, mapSheet, name, scale);
+				assert teil != null;
 				(teil.getImage()).draw(teil.getX(), teil.getY(), scale);
 			}
 		}
 		
 		//draw all monsters and Towers in the game
-		if (Objects != null){ 
-			for (Iterator<String> it = Objects.keySet().iterator(); it.hasNext();){
-				String name = it.next();
+		if (Objects != null){
+			for (String name : Objects.keySet()) {
 				RenderObjects object = RenderObjects.render(Objects, objectSheet, towerSheet, name, scale);
 				(object.getImage()).draw(object.getX(), object.getY(), scale);
-				if(name.indexOf("monster", 0)!=-1){
-				g.fillRect(object.getX(), object.getY()-5, (GameEngine.monsterMap.get(name).getLifepoints()*2)*scale, 4);
+				if (name.contains("monster")) {
+					g.fillRect(object.getX(), object.getY() - 5, (GameEngine.monsterMap.get(name).getLifepoints() * 2) * scale, 4);
 				}
 			}
 		}
@@ -274,7 +258,9 @@ public class GameState extends BasicGameState {
 		if(gameWon){//draw the String "You've won" if Game is Won
 			g.drawString("You've won", 250, 283);
 		}
-		
+
+		//Rectangle which visualize the life points
+		Rectangle lps;
 		if(initLifepionts==60 && lifepionts>=0){
 			lps = new Rectangle(x-90, 12, 75*((lifepionts*1.66f)/100), 13); //initiates the life points Rectangle
 		}else if(initLifepionts==30 && lifepionts>=0){
@@ -319,7 +305,7 @@ public class GameState extends BasicGameState {
 			g.setColor(Color.black);
 			g.drawString("Do you want to save your score", 250, 300);
 			g.drawString("Yes", 330, 335);
-			g.drawString("No", 410, 335);;
+			g.drawString("No", 410, 335);
 			g.drawString("Please enter a Name: ", 250, 360);
 			g.drawString(nameToShort, 250, 410);
 			g.setColor(Color.white);
@@ -367,7 +353,7 @@ public class GameState extends BasicGameState {
 			gc.setFullscreen(false);
 			string = "The tutorial is over now. The Game will restart.";
 			restart = true;
-		}else if(in.isKeyPressed(Input.KEY_F)&&gc.isFullscreen()!=true){
+		}else if(in.isKeyPressed(Input.KEY_F)&& !gc.isFullscreen()){
 			gc.setFullscreen(true);
 			string = "Now try to press Esc";
 			skip = " ";
@@ -379,7 +365,7 @@ public class GameState extends BasicGameState {
 			string = "First we want to set a new Tower. Please rigth click on an empty Field.";
 			skip = "";}
 		
-		if(gameLost!=true && gameWon != true){ //moves all Monsters
+		if(!gameLost && !gameWon){ //moves all Monsters
 		game.moveAllMonster();
 		}
 		
@@ -420,7 +406,7 @@ public class GameState extends BasicGameState {
 				}
 		
 		//checks if Wave is over and starts the Timer 
-		if(GameEngine.monsterMap.isEmpty() && waveTimer<=0 && gameLost!=true && gameWon != true){
+		if(GameEngine.monsterMap.isEmpty() && waveTimer<=0 && !gameLost && !gameWon){
 				waveTimer = 12000;
 				game.NewWave();
 				waveNr = "" + game.Wave;
@@ -428,7 +414,7 @@ public class GameState extends BasicGameState {
 					tutVisible = false;
 					restart=false;
 				}
-		}else if (GameEngine.monsterMap.isEmpty() && waveTimer>0 && gameLost!=true && gameWon != true){
+		}else if (GameEngine.monsterMap.isEmpty() && waveTimer>0 && !gameLost && !gameWon){
 						waveTimer = waveTimer - delta;
 					}
 		
@@ -489,13 +475,13 @@ public class GameState extends BasicGameState {
 		//what to do after left click
 		if(in.isMousePressed(Input.MOUSE_RIGHT_BUTTON)){
 			oldMouse = mouse; //save Position of mouse at right click
+			//indicates if you can set a Tower
 			if(checker.isFieldValid(scale)){ //checks if clicked field is valid
-				if(checker.isThereTower(scale)!=true){ //checks if there is not a Tower
-					if(string.indexOf("Welcome", 0)!=-1){
+				if(!checker.isThereTower(scale)){ //checks if there is not a Tower
+					if(string.contains("Welcome")){
 						tutVisible = false;
 						}
 					string = "Now you can choose a Tower and set it on the field by clicking left on the Tower.";
-					canTowerSet = true; //so you can build a new one
 					towerChooseVisible = true; //you should see the TowerChooser
 					towerUgradeVisible = false; //you should not see the TowerUpgrade
 					towerChoose = infoSheet.getSubImage(0, 0); //get the SubImage out of the SpriteSheet
@@ -505,15 +491,14 @@ public class GameState extends BasicGameState {
 					//towerChoose = infoSheet.getSubImage(0, 1); //get the SubImage out of the SpriteSheet
 					}
 			}else if(checker.isFieldTree(scale)){ //check if there is a tree
-				canTowerSet = false; //so you can't set towers
 				treeVisible = true; //and should see the Image to remove tree's
 			}
 		}
 		
 		//checks if one of the tree is Visible an your out of Image Bounds
-		if ((towerChooseVisible||towerUgradeVisible || treeVisible)&& 
-				((oldMouse.getX()-5<=mouse.getX()&&oldMouse.getX()+115>=mouse.getX())&&
-						(oldMouse.getY()-5<=mouse.getY() && oldMouse.getY()+155>= mouse.getY()))!=true){
+		if ((towerChooseVisible||towerUgradeVisible || treeVisible)&&
+				!((oldMouse.getX() - 5 <= mouse.getX() && oldMouse.getX() + 115 >= mouse.getX()) &&
+						(oldMouse.getY() - 5 <= mouse.getY() && oldMouse.getY() + 155 >= mouse.getY()))){
 			
 			towerChooseVisible = false; 
 			towerUgradeVisible = false;

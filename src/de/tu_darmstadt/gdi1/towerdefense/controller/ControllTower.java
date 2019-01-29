@@ -1,6 +1,3 @@
-/**
- * 
- */
 package de.tu_darmstadt.gdi1.towerdefense.controller;
 
 import java.awt.Point;
@@ -69,7 +66,7 @@ public class ControllTower {
 	public boolean isFieldValid(float scale) {
 		String field = GuiObject.getKey(map, mouse, scale);
 
-		if (field != null && (field.indexOf("field", 0) != -1 || field.indexOf("flower", 0) != -1)) {
+		if (field != null && (field.contains("field") || field.contains("flower"))) {
 			currentField = GameState.Map.get(field);
 			return true;
 		} else
@@ -86,7 +83,7 @@ public class ControllTower {
 	public boolean isFieldTree(float scale) {
 		String field = GuiObject.getKey(map, mouse, scale);
 
-		if (field != null && field.indexOf("tree", 0) != -1) {
+		if (field != null && field.contains("tree")) {
 			currentTree = GameState.Map.get(field);
 			tree = field;
 			return true;
@@ -102,9 +99,9 @@ public class ControllTower {
 	 * @return true if there is a Tower else false
 	 */
 	public boolean isThereTower(float scale) {
-		if(GameState.towerUgradeVisible!=true){
+		if(!GameState.towerUgradeVisible){
 		String object = GuiObject.getKey(objects, mouse, scale);
-		if (object != null && object.indexOf("tower", 0) != -1) {
+		if (object != null && object.contains("tower")) {
 			currentTower = GameState.Objects.get(object);
 			tower = object;
 			return true;
@@ -123,7 +120,7 @@ public class ControllTower {
 	 * 
 	 * @return return true if mouse inside this Tower, else false
 	 */
-	public boolean whichTower(Point oldMouse, int width, int height){
+	private boolean whichTower(Point oldMouse, int width, int height){
 		return ((oldMouse.getX() <= mouse.getX() && oldMouse.getX() + width * 2 >= mouse.getX())
 				&& (oldMouse.getY() <= mouse.getY() && oldMouse.getY() + height >= mouse.getY()));
 	}
@@ -142,7 +139,7 @@ public class ControllTower {
 	public Image infoField(Point oldMouse, int width, int pictureSize) {
 		
 		Image towerInfo = null;
-		if(GameState.towerUgradeVisible != true && GameState.towerChooseVisible){
+		if(!GameState.towerUgradeVisible && GameState.towerChooseVisible){
 			if (whichTower(oldMouse, width, 50)) {
 				//normal Tower
 				GameState.towerInfoVisible = true;
@@ -196,12 +193,9 @@ public class ControllTower {
 	 * 
 	 * @return true if the mouse is over the button, else false
 	 */
-	public boolean overUpdateOrDelete(Point button){
-		if((mouse.getX()>=button.getX() && mouse.getX()<=button.getX()+108)
-				&& (mouse.getY()>=button.getY() && mouse.getY()<=button.getY()+20))
-			return true;
-			
-		else return false;
+	private boolean overUpdateOrDelete(Point button){
+		return (mouse.getX() >= button.getX() && mouse.getX() <= button.getX() + 108)
+				&& (mouse.getY() >= button.getY() && mouse.getY() <= button.getY() + 20);
 	}
 	
 	/**
@@ -434,7 +428,8 @@ public class ControllTower {
 		Point buttonD = null;
 		if(oldMouse!=null)
 			buttonD = new Point((int)oldMouse.getX(), (int)oldMouse.getY()+115);
-		
+
+		assert buttonD != null;
 		if(GameState.treeVisible && overUpdateOrDelete(buttonD)){
 			remove = infoSheet.getSubImage(2, 0);
 			if(in.isMousePressed(Input.MOUSE_LEFT_BUTTON) && game.Gold-15>=0){

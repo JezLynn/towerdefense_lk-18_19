@@ -7,9 +7,9 @@ public class Monster {
 	private int speed;
 	private int profit;
 	public int steps=0;
-	public int Start=0;
+	private int Start;
 	public boolean durable;
-	public static int killcounter = 0;
+	private static int killcounter = 0;
 	
 	/**
 	 * 
@@ -106,13 +106,6 @@ public class Monster {
 			return false;
 		}
 	}
-	
-//	public void setStart(int start)
-//	{
-//		this.Start = start;
-//	}
-
-		
 }
 
 

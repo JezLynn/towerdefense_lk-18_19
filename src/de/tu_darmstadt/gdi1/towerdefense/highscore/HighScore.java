@@ -21,7 +21,7 @@ import java.util.Collections;
 public class HighScore {
 
 	private String path = "src/de/tu_darmstadt/gdi1/resources/highscore/highscore.txt";
-	public ArrayList<HighScoreEntry> listHighscore = new ArrayList<HighScoreEntry>();
+	public ArrayList<HighScoreEntry> listHighscore = new ArrayList<>();
 	
 	/**
 	 * Save the reached score
@@ -55,11 +55,11 @@ public class HighScore {
 	public void read() {
 		try {
 			BufferedReader in = new BufferedReader(new FileReader(path));
-			String zeile = null;
+			String zeile;
 			while ((zeile = in.readLine()) != null) {
 				if (zeile.length() >= 1){
 					int index = zeile.indexOf(" ");
-					String dName = new String(zeile.substring(0, index));
+					String dName = zeile.substring(0, index);
 					Integer dPoints = new Integer(zeile.substring(index + 1));
 				HighScoreEntry entry = new HighScoreEntry(dName, dPoints);
 				listHighscore.add(entry);

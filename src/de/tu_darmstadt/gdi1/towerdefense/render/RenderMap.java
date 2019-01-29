@@ -1,6 +1,3 @@
-/**
- * 
- */
 package de.tu_darmstadt.gdi1.towerdefense.render;
 
 import java.awt.Point;
@@ -16,9 +13,9 @@ import org.newdawn.slick.SpriteSheet;
  */
 public class RenderMap {
 	
-	Image image; //the image of the piece
-	int x;	//the x Position
-	int y; //the y Position
+	private Image image; //the image of the piece
+	private int x;	//the x Position
+	private int y; //the y Position
 
 	/**
 	 * Constructor of the Class
@@ -27,7 +24,7 @@ public class RenderMap {
 	 * @param x the x Position
 	 * @param y the y Position
 	 */
-	public RenderMap(Image image, int x, int y) {
+	private RenderMap(Image image, int x, int y) {
 		this.image = image;
 		this.x = x;
 		this.y = y;
@@ -76,84 +73,84 @@ public class RenderMap {
 				int x = (int) Map.get(iName).getX();
 				int y = (int) Map.get(iName).getY();
 				
-				if (iName.indexOf("border", 0)!= -1) {
-					if(iName.indexOf("border_ne", 0)!=-1){
+				if (iName.contains("border")) {
+					if(iName.contains("border_ne")){
 					return new RenderMap(sheet.getSubImage(0, 6), (int) (x*scale), (int) (y*scale));
-					}else if(iName.indexOf("border_se", 0)!=-1){
+					}else if(iName.contains("border_se")){
 						return new RenderMap(sheet.getSubImage(1, 5), (int) (x*scale), (int) (y*scale));
-					}else if(iName.indexOf("border_sw", 0)!=-1){
+					}else if(iName.contains("border_sw")){
 						return new RenderMap(sheet.getSubImage(1, 5).getFlippedCopy(true, false), (int) (x*scale), (int) (y*scale));
-					}else if(iName.indexOf("border_nw", 0)!=-1){
+					}else if(iName.contains("border_nw")){
 						return new RenderMap(sheet.getSubImage(0, 6).getFlippedCopy(true, false), (int) (x*scale), (int) (y*scale));
-					}else if(iName.indexOf("border_e", 0)!=-1 || iName.indexOf("border_w", 0)!=-1){
+					}else if(iName.contains("border_e") || iName.contains("border_w")){
 						return new RenderMap(sheet.getSubImage(2, 5), (int) (x*scale), (int) (y*scale));
 					}else 
 						return new RenderMap(sheet.getSubImage(0, 5), (int) (x*scale), (int) (y*scale));
 					
-				} else if (iName.indexOf("tower", 0)!= -1) {
+				} else if (iName.contains("tower")) {
 					return new RenderMap(sheet.getSubImage(0, 0), (int) (x*scale), (int) (y*scale));
 				
-				} else if (iName.indexOf("field", 0)!= -1) {
+				} else if (iName.contains("field")) {
 					return new RenderMap(sheet.getSubImage(0, 0), (int) (x*scale), (int) (y*scale));
 
-				}else if (iName.indexOf("flower", 0)!= -1) {
+				}else if (iName.contains("flower")) {
 					return new RenderMap(sheet.getSubImage(1, 0), (int) (x*scale), (int) (y*scale));
 				
-				}else if (iName.indexOf("tree", 0)!= -1) {
+				}else if (iName.contains("tree")) {
 					return new RenderMap(sheet.getSubImage(3, 5), (int) (x*scale), (int) (y*scale));
 				
-				} else if (iName.indexOf("finish_north", 0)!= -1) {
+				} else if (iName.contains("finish_north")) {
 					return new RenderMap(sheet.getSubImage(2, 4), (int) (x*scale), (int) (y*scale));
 					
-				} else if (iName.indexOf("finish_south", 0)!= -1) {
+				} else if (iName.contains("finish_south")) {
 					return new RenderMap(sheet.getSubImage(3, 4), (int) (x*scale), (int) (y*scale));
 					
-				} else if (iName.indexOf("finish_east", 0)!= -1) {
+				} else if (iName.contains("finish_east")) {
 					return new RenderMap(sheet.getSubImage(0, 4), (int) (x*scale), (int) (y*scale));
 					
-				} else if (iName.indexOf("finish_west", 0)!= -1) {
+				} else if (iName.contains("finish_west")) {
 					return new RenderMap(sheet.getSubImage(1, 4), (int) (x*scale), (int) (y*scale));
 					
-				} else if (iName.indexOf("start_north", 0)!= -1) {
+				} else if (iName.contains("start_north")) {
 					return new RenderMap(sheet.getSubImage(2, 2), (int) (x*scale), (int) (y*scale));
 					
-				} else if (iName.indexOf("start_south", 0)!= -1) {
+				} else if (iName.contains("start_south")) {
 					return new RenderMap(sheet.getSubImage(3, 2), (int) (x*scale), (int) (y*scale));
 					
-				} else if (iName.indexOf("start_east", 0)!= -1) {
+				} else if (iName.contains("start_east")) {
 					return new RenderMap(sheet.getSubImage(1, 2), (int) (x*scale), (int) (y*scale));
 					
-				} else if (iName.indexOf("start_west", 0)!= -1) {
+				} else if (iName.contains("start_west")) {
 					return new RenderMap(sheet.getSubImage(0, 2), (int) (x*scale), (int) (y*scale));
 					
-				} else if (iName.indexOf("cws", 0)!= -1) {
+				} else if (iName.contains("cws")) {
 					return new RenderMap(sheet.getSubImage(3, 1), (int) (x*scale), (int) (y*scale));
 					
-				} else if (iName.indexOf("cwn", 0)!= -1) {
+				} else if (iName.contains("cwn")) {
 					return new RenderMap(sheet.getSubImage(0, 1), (int) (x*scale), (int) (y*scale));
 					
-				} else if (iName.indexOf("cen", 0)!= -1) {
+				} else if (iName.contains("cen")) {
 					return new RenderMap(sheet.getSubImage(1, 1), (int) (x*scale), (int) (y*scale));
 					
-				} else if (iName.indexOf("ces", 0)!= -1) {
+				} else if (iName.contains("ces")) {
 					return new RenderMap(sheet.getSubImage(2, 1), (int) (x*scale), (int) (y*scale));
 					
-				} else if (iName.indexOf("swe", 0)!= -1) {
+				} else if (iName.contains("swe")) {
 					return new RenderMap(sheet.getSubImage(3, 0), (int) (x*scale), (int) (y*scale));
 					
-				} else if (iName.indexOf("sns", 0)!= -1) {
+				} else if (iName.contains("sns")) {
 					return new RenderMap(sheet.getSubImage(2, 0), (int) (x*scale), (int) (y*scale));
 					
-				} else if (iName.indexOf("tcs", 0)!= -1) {
+				} else if (iName.contains("tcs")) {
 					return new RenderMap(sheet.getSubImage(3, 3), (int) (x*scale), (int) (y*scale));
 					
-				} else if (iName.indexOf("tce", 0)!= -1) {
+				} else if (iName.contains("tce")) {
 					return new RenderMap(sheet.getSubImage(2, 3), (int) (x*scale), (int) (y*scale));
 					
-				} else if (iName.indexOf("tcw", 0)!= -1) {
+				} else if (iName.contains("tcw")) {
 					return new RenderMap(sheet.getSubImage(1, 3), (int) (x*scale), (int) (y*scale));
 					
-				} else if (iName.indexOf("tcn", 0)!= -1) {
+				} else if (iName.contains("tcn")) {
 					return new RenderMap(sheet.getSubImage(0, 3), (int) (x*scale), (int) (y*scale));
 					
 				}else return null;

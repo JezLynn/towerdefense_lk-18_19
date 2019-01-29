@@ -13,7 +13,7 @@ public class Tower {
 	private int cost;
 	private int frequency;
 	public char type;
-	public boolean status;
+	private boolean status;
 	
 	/**
 	 * 
@@ -110,8 +110,8 @@ public class Tower {
 	 */
 	public int upgrade(int Gold)
 	{ 
-		int d=0; int r=0; int f=0; int c=0; int gold=Gold;//TODO
-		
+		int d=0; int r=0; int f=0; int c=0;
+
 		if(rank<=3)
 		{
 		switch(type)
@@ -153,7 +153,7 @@ public class Tower {
 			  }break;		
 		}
 		
-		if(gold>=c) //wenn genug gold für turm update
+		if(Gold >=c) //wenn genug gold für turm update
      	{
 //			System.out.println("Tower SSTATS: d r f r"+damage+" "+range+" "+frequency+" "+rank+" ");
 			damage=damage+d; range=range+r; frequency=frequency+f; rank++;

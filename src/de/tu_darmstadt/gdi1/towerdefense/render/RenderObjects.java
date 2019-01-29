@@ -1,6 +1,3 @@
-/**
- * 
- */
 package de.tu_darmstadt.gdi1.towerdefense.render;
 
 import java.awt.Point;
@@ -19,9 +16,9 @@ import de.tu_darmstadt.gdi1.towerdefense.tower.Tower;
  */
 public class RenderObjects {
 
-	Image image; //the image of the piece
-	int x;	//the x Position
-	int y; //the y Position
+	private Image image; //the image of the piece
+	private int x;	//the x Position
+	private int y; //the y Position
 
 	/**
 	 * Constructor of the Class
@@ -30,7 +27,7 @@ public class RenderObjects {
 	 * @param x the x Position
 	 * @param y the y Position
 	 */
-	public RenderObjects(Image image, int x, int y) {
+	private RenderObjects(Image image, int x, int y) {
 		this.image = image;
 		this.x = x;
 		this.y = y;
@@ -81,7 +78,7 @@ public class RenderObjects {
 		int y = (int) Map.get(iName).getY();
 		RenderObjects object = null; 
 		
-		if (iName.indexOf("monster", 0) != -1) { //search for the Monster
+		if (iName.contains("monster")) { //search for the Monster
 			if ((GameEngine.monsterMap.get(iName)).getSpeed() < 2) { //how fast is the Monster
 				object =  new RenderObjects(objectSheet.getSubImage(0, 0), (int) (x * scale), (int) (y * scale));
 			} else if ((GameEngine.monsterMap.get(iName)).getSpeed() < 5){
@@ -89,7 +86,7 @@ public class RenderObjects {
 			} else 	object = new RenderObjects(objectSheet.getSubImage(1, 0), (int) (x * scale), (int) (y * scale));
 			
 			
-		} else if(iName.indexOf("tower", 0) != -1){
+		} else if(iName.contains("tower")){
 			Tower t = GameEngine.towerMap.get(iName);
 			
 			if(t.type == 't'){
@@ -132,7 +129,7 @@ public class RenderObjects {
 					object =  new RenderObjects(towerSheet.getSubImage(3, 2), (int) (x * scale), (int) (y * scale));
 					}
 			}
-		} else if(iName.indexOf("hit", 0)!=-1){
+		} else if(iName.contains("hit")){
 			object = new RenderObjects(objectSheet.getSubImage(0, 2), (int) (x * scale), (int) (y * scale));
 		}
 		return object;

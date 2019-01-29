@@ -1,6 +1,3 @@
-/**
- * 
- */
 package de.tu_darmstadt.gdi1.towerdefense.ui;
 
 import org.newdawn.slick.Color;
@@ -23,7 +20,7 @@ import de.tu_darmstadt.gdi1.towerdefense.controller.ControllSetUp;
  */
 public class MainMenuState extends BasicGameState {
 
-	int stateID = -1;
+	private int stateID;
 	
 	private SpriteSheet level; //the SpriteSheet with all default Menulevel SubImages
 	private SpriteSheet levelicy; //the SpriteSheet with all icy Menulevel SubImages
@@ -52,9 +49,9 @@ public class MainMenuState extends BasicGameState {
 	public static boolean atLevel3 = false; //indicates if mouse is at Level3
 	public static boolean atLevel4 = false; //indicates if mouse is at Level4
 	public static boolean atLevel5 = false; //indicates if mouse is at Level5
-	public static boolean icyS = false; //indicates if icy Skin is selected
-	public static boolean utS = false; //indicates if ut Skin is selected
-	public static boolean defaultS = true; //indicates if default Skin is selected
+	static boolean icyS = false; //indicates if icy Skin is selected
+	static boolean utS = false; //indicates if ut Skin is selected
+	private static boolean defaultS = true; //indicates if default Skin is selected
 	private boolean easy = true; //indicates if game should be easy
 	private boolean medium = false; //indicates if game should be medium
 	private boolean hard = false; //indicates if game should be hard
@@ -115,8 +112,7 @@ public class MainMenuState extends BasicGameState {
 	 * @see org.newdawn.slick.state.GameState#render(org.newdawn.slick.GameContainer, org.newdawn.slick.state.StateBasedGame, org.newdawn.slick.Graphics)
 	 */
 	@Override
-	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
-			throws SlickException {
+	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
 		
 		
 		back.draw(0, 0);
@@ -167,7 +163,7 @@ public class MainMenuState extends BasicGameState {
 		
 		if(credits){
 			g.setColor(Color.black);
-			g.fillRect((gc.getWidth()-500)/2, (gc.getHeight()-250)/2, 500, 250);
+			g.fillRect((gc.getWidth()-500)/2f, (gc.getHeight()-250)/2f, 500, 250);
 			String credits = "This game was coded and designed by:\n\n" +
 					"Alavi, Saed\n" +
 					"Lichtblau, Martin\n" +
@@ -176,7 +172,7 @@ public class MainMenuState extends BasicGameState {
 					"Thanks to: \n" +
 					"our Tutor and every one who supported us.";
 			g.setColor(Color.white);
-			g.drawString(credits, (gc.getWidth()-500)/2+5, (gc.getHeight()-250)/2+5);
+			g.drawString(credits, (gc.getWidth()-500)/2f+5, (gc.getHeight()-250)/2f+5);
 			
 		}
 	}
@@ -195,11 +191,9 @@ public class MainMenuState extends BasicGameState {
 		ControllSetUp controll = new ControllSetUp();
 		
 		//Checks if the User want to display the Credits
-		if((mouseX >= 1024-header_back.getWidth() && mouseX<= 1024)&&
-				(mouseY >= 768-header_back.getHeight() && mouseY <= 768)&&
-				mc.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)){
-			credits = true;
-		}else credits = false;
+		credits = (mouseX >= 1024 - header_back.getWidth() && mouseX <= 1024) &&
+				(mouseY >= 768 - header_back.getHeight() && mouseY <= 768) &&
+				mc.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON);
 		
 		//check which level Skin should be loaded
 		if(((mouseX >= 418 && mouseX <= 438)
@@ -294,7 +288,7 @@ public class MainMenuState extends BasicGameState {
 		//End an enter Fullscreen
 				if(mc.isKeyPressed(Input.KEY_ESCAPE)&&gc.isFullscreen()){
 					gc.setFullscreen(false);
-				}else if(mc.isKeyPressed(Input.KEY_F)&&gc.isFullscreen()!=true){
+				}else if(mc.isKeyPressed(Input.KEY_F)&& !gc.isFullscreen()){
 					gc.setFullscreen(true);
 				}
 	}
