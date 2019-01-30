@@ -64,27 +64,27 @@
 		}
 
 		/**
-		 * to get the x Coordinate by a name
-		 * @param name the to get the x
+		 * to get the x Coordinate by a key
+		 * @param key the to get the x
 		 * @return the x Value
 		 */
-		public static int getX(String name) // return int x
+		public static int getX(String key) // return int x
 		{
-			return (int)(GuiObjectMap.get(name).getX()/pictureSize);
+			return (int)(GuiObjectMap.get(key).getX()/pictureSize);
 		}
 		
 		/**
-		 * to get the y Coordinate by a name
-		 * @param name the to get the y
+		 * to get the y Coordinate by a key
+		 * @param key the to get the y
 		 * @return the y Value
 		 */
-		public static int getY(String name) // return int y
+		public static int getY(String key) // return int y
 		{
-			return (int)(GuiObjectMap.get(name).getY()/pictureSize);
+			return (int)(GuiObjectMap.get(key).getY()/pictureSize);
 		}
 
 		/**
-		 * to get the Key associated to the given Value
+		 * to get the Key associated to the given Object description
 		 * 
 		 * @param map the HashMap to browse
 		 * @param value the given value

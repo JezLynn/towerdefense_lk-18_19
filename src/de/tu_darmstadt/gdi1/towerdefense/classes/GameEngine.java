@@ -7,7 +7,7 @@ import java.util.Random;
 
 import de.tu_darmstadt.gdi1.towerdefense.exceptions.SyntaxNotCorrectException;
 import de.tu_darmstadt.gdi1.towerdefense.monster.Monster;
-import de.tu_darmstadt.gdi1.towerdefense.tower.Tower;
+import de.tu_darmstadt.gdi1.towerdefense.tower.*;
 import de.tu_darmstadt.gdi1.towerdefense.ui.GameState;
 import de.tu_darmstadt.gdi1.towerdefense.ui.MainMenuState;
 
@@ -378,7 +378,26 @@ public class GameEngine {
     public void setTower(int y, int x, char name) //Sets a Tower in GuiMap and creates object tower in towerMap
     {
         new GuiObject("tower" + counterT, x, y);
-        towerMap.put("tower" + counterT, new Tower(name, counterT));
+        Tower t;
+        switch (name) {
+            case 't': {
+                t = new Shortrange(name, counterT);
+                break;
+            }
+            case 'p': {
+                t = new Poison(name, counterT);
+                break;
+            }
+            case 'i': {
+                t = new Ice(name, counterT);
+                break;
+            }
+            default: {
+                t = new Default(name, counterT);
+                break;
+            }
+        }
+        towerMap.put("tower" + counterT, t);
         Gold = Gold - towerMap.get("tower" + counterT).getCost();
         counterT++;
     }
