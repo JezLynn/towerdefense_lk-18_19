@@ -40,8 +40,7 @@
 		 */
 		public static void update(String name, int x, int y) {
 
-			GuiObjectMap.get(name).translate((x * pictureSize),
-					(y * pictureSize));
+			GuiObjectMap.get(name).translate((x * pictureSize), (y * pictureSize));
 		}
 
 		/**
@@ -93,17 +92,16 @@
 		 * 
 		 * @return the associated Key
 		 */
-		public static String getKey(Map<String, Point> map, Point value,
-				float scale) {
+		public static String getKey(Map<String, Point> map, Point value, float scale) {
 			String s = null;
-			for (String teil : map.keySet()) {
-				Point guiPoint = map.get(teil);
+			for (String mapPiece : map.keySet()) {
+				Point guiPoint = map.get(mapPiece);
 
 				if ((guiPoint.getX() * scale <= value.getX() &&
 						(guiPoint.getX() + pictureSize) * scale >= value.getX()) &&
 						(guiPoint.getY() * scale <= value.getY() &&
 								(guiPoint.getY() + pictureSize) * scale >= value.getY())) {
-					s = teil;
+					s = mapPiece;
 				}
 			}
 			return s;

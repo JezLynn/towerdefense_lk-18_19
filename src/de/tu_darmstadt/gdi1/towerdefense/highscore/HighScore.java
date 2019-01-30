@@ -13,66 +13,66 @@ import java.util.Collections;
 /**
  * @author Michael Schlittenbauer
  * @version 1.1
- * This class writes a new highscore and reads the allready reached highscores 
+ * This class writes a new highscore and reads the allready reached highscores
  * from/to the file highscroe.txt
- * 
  */
 
 public class HighScore {
 
-	private String path = "src/de/tu_darmstadt/gdi1/resources/highscore/highscore.txt";
-	public ArrayList<HighScoreEntry> listHighscore = new ArrayList<>();
-	
-	/**
-	 * Save the reached score
-	 * @param name the name of the Player
-	 * @param points the reached Points
-	 */
-	public void save(String name, int points) {
-		
-		/*
-		 *  writes the reached highscore into the highscore.txt
-		 *  cipher encodes the highscore, so you can't cheat.
-		 */
-		
-		BufferedWriter out;
-		try {
-			out = new BufferedWriter(new PrintWriter(new FileWriter(path, /* append */ true)));
+    private String path = "src/de/tu_darmstadt/gdi1/resources/highscore/highscore.txt";
+    public ArrayList<HighScoreEntry> listHighscore = new ArrayList<>();
 
-			out.append(name + " " + points);
-			out.newLine();
-			out.close();
-		} catch (IOException e) {
-			System.out.println("Datei konnte nicht gefunden werden");
-			e.printStackTrace();
-		}
-	}
+    /**
+     * Save the reached score
+     *
+     * @param name   the name of the Player
+     * @param points the reached Points
+     */
+    public void save(String name, int points) {
 
-		/**
-		 * 	reads the highscore.txt and list the result in the GameWindow.
-		 * 	sort with Collection.sort() the entry's
-		 */	
-	public void read() {
-		try {
-			BufferedReader in = new BufferedReader(new FileReader(path));
-			String zeile;
-			while ((zeile = in.readLine()) != null) {
-				if (zeile.length() >= 1){
-					int index = zeile.indexOf(" ");
-					String dName = zeile.substring(0, index);
-					Integer dPoints = new Integer(zeile.substring(index + 1));
-				HighScoreEntry entry = new HighScoreEntry(dName, dPoints);
-				listHighscore.add(entry);
-				}
-			}
-			in.close();
-		} catch (FileNotFoundException e) {
-			System.out.println("Datei konnte nicht gefunden werden");
-			e.printStackTrace();
-		} catch (IOException e) {
-			System.out.println("Datei konnte nicht gelesen werden");
-			e.printStackTrace();
-		}
-		Collections.sort(listHighscore);
-	}
+        /*
+         *  writes the reached highscore into the highscore.txt
+         *  cipher encodes the highscore, so you can't cheat.
+         */
+
+        BufferedWriter out;
+        try {
+            out = new BufferedWriter(new PrintWriter(new FileWriter(path, /* append */ true)));
+
+            out.append(name + " " + points);
+            out.newLine();
+            out.close();
+        } catch (IOException e) {
+            System.out.println("Datei konnte nicht gefunden werden");
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * reads the highscore.txt and list the result in the GameWindow.
+     * sort with Collection.sort() the entry's
+     */
+    public void read() {
+        try {
+            BufferedReader in = new BufferedReader(new FileReader(path));
+            String zeile;
+            while ((zeile = in.readLine()) != null) {
+                if (zeile.length() >= 1) {
+                    int index = zeile.indexOf(" ");
+                    String dName = zeile.substring(0, index);
+                    Integer dPoints = new Integer(zeile.substring(index + 1));
+                    HighScoreEntry entry = new HighScoreEntry(dName, dPoints);
+                    listHighscore.add(entry);
+                }
+            }
+            in.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("Datei konnte nicht gefunden werden");
+            e.printStackTrace();
+        } catch (IOException e) {
+            System.out.println("Datei konnte nicht gelesen werden");
+            e.printStackTrace();
+        }
+        Collections.sort(listHighscore);
+    }
 }

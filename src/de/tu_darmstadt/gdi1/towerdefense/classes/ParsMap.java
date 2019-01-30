@@ -1,6 +1,6 @@
-	package de.tu_darmstadt.gdi1.towerdefense.classes;
+package de.tu_darmstadt.gdi1.towerdefense.classes;
 
-	import java.io.BufferedReader;
+import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Random;
@@ -8,589 +8,577 @@ import java.util.Random;
 import de.tu_darmstadt.gdi1.towerdefense.exceptions.SyntaxNotCorrectException;
 import de.tu_darmstadt.gdi1.towerdefense.ui.GameState;
 
-	public class ParsMap {
-		public char[][] parsedMap;
-		public int startPointsCounter = 0;
-		private int destinationPointsCounter = 0;
-		private int counter = 0;
-		static int startcounter = 0;
+public class ParsMap {
+    public char[][] parsedMap;
+    public int startPointsCounter = 0;
+    private int destinationPointsCounter = 0;
+    private int counter = 0;
+    static int startcounter = 0;
 
-		/*
-		 * (non-javadoc)
-		 */
-		private GuiObject guiObject;
+    /*
+     * (non-javadoc)
+     */
+    private GuiObject guiObject;
 
-		/**
-		 * Makes a String from a textfile
-		 * 
-		 * @return char[][] with all symbols of the textfile
-		 */
-		char[][] reading(String a) {
-			int i = 0;
-			int j = 0;
-			int z = 0;
-			try {
-				BufferedReader in = new BufferedReader(new FileReader(a));
-				String zeile;
-				StringBuilder sb = new StringBuilder();
-				while ((zeile = in.readLine()) != null) {
-					sb.append(zeile).append("\n");
-					if (z == 0) {
-						for (int k = 0; k < zeile.length(); k++) {
-							if (zeile.charAt(k) != '\n') {
-								j++;
-							}
-							z++;
-						}
-					}
-					i++;
-				}
-				in.close();
-				parsedMap = new char[i][j];
-				if (i > 16 || j > 12) {
-					GameState.setScale(0.7f);
-				} else
-					GameState.setScale(1);
+    /**
+     * Makes a String from a textfile
+     *
+     * @return char[][] with all symbols of the textfile
+     */
+    char[][] reading(String a) {
+        int i = 0;
+        int j = 0;
+        int z = 0;
+        try {
+            BufferedReader in = new BufferedReader(new FileReader(a));
+            String zeile;
+            StringBuilder sb = new StringBuilder();
+            while ((zeile = in.readLine()) != null) {
+                sb.append(zeile).append("\n");
+                if (z == 0) {
+                    for (int k = 0; k < zeile.length(); k++) {
+                        if (zeile.charAt(k) != '\n') {
+                            j++;
+                        }
+                        z++;
+                    }
+                }
+                i++;
+            }
+            in.close();
+            parsedMap = new char[i][j];
+            if (i > 16 || j > 12) {
+                GameState.setScale(0.7f);
+            } else
+                GameState.setScale(1);
 
-				stringToArray(sb.toString());
+            stringToArray(sb.toString());
 
-			} catch (IOException e) {
-				System.out.println("Cannot open " + e);
-			}
-			return parsedMap;
-		}
+        } catch (IOException e) {
+            System.out.println("Cannot open " + e);
+        }
+        return parsedMap;
+    }
 
-		/**
-		 * creates a new char "parsedMap" and fill it with the characters from
-		 * the String
-		 * 
-		 * @param map
-		 */
+    /**
+     * creates a new char "parsedMap" and fill it with the characters from
+     * the String
+     *
+     * @param map
+     */
 
-		public void stringToArray(String map) {
-			int ch = 0;
-			int j = 0;
-			startPointsCounter = 0;
-			for (int i = 0; i < map.length(); i++) {
-				if (map.substring(i, i + 1).equals("\n")) {
-					for (int k = 0; k < ch; ++k) {
-						char charAt = map.charAt((i + 1) - (ch + 1) + k);
-						parsedMap[j][k] = charAt;
+    public void stringToArray(String map) {
+        int ch = 0;
+        int j = 0;
+        startPointsCounter = 0;
+        for (int i = 0; i < map.length(); i++) {
+            if (map.substring(i, i + 1).equals("\n")) {
+                for (int k = 0; k < ch; ++k) {
+                    char charAt = map.charAt((i + 1) - (ch + 1) + k);
+                    parsedMap[j][k] = charAt;
 
-						// z�hlen der Startpunkte
-						if (charAt == 'S') {
-							startPointsCounter++;
-						}
-						// z�hlen der Zielpunkte
-						else if (charAt == 'X') {
-							destinationPointsCounter++;
-						}
+                    // z�hlen der Startpunkte
+                    if (charAt == 'S') {
+                        startPointsCounter++;
+                    }
+                    // z�hlen der Zielpunkte
+                    else if (charAt == 'X') {
+                        destinationPointsCounter++;
+                    }
 
-					}
-					ch = 0;
-					j++;
-				} else if (i + 1 == map.length()) {
-					for (int k = 0; k <= ch; ++k) {
-						parsedMap[j][k] = map.charAt((i + 1) - (ch + 1) + k);
-					}
-				} else
-					ch = ch + 1;
-			}
-		}
+                }
+                ch = 0;
+                j++;
+            } else if (i + 1 == map.length()) {
+                for (int k = 0; k <= ch; ++k) {
+                    parsedMap[j][k] = map.charAt((i + 1) - (ch + 1) + k);
+                }
+            } else
+                ch = ch + 1;
+        }
+    }
 
-		/**
-		 * String with the value of the array (named parsedMap)
-		 * 
-		 * @return String with values of 2-dim-array (parsedMap)
-		 */
-		public String toString() {
-			StringBuilder sb = new StringBuilder();
-			for (int i = 0; i < parsedMap.length; i++) {
-				if(i+1< parsedMap.length){
-					for (int j = 0; j < parsedMap[i].length; j++) {
-						sb.append(parsedMap[i][j]);
-					}
-					sb.append("\n");
-				}
-				else {
-					for (int j = 0; j < parsedMap[i].length; j++) {
-						sb.append(parsedMap[i][j]);
-					}			
-				}
-			}
-			return sb.toString();
-		}
+    /**
+     * String with the value of the array (named parsedMap)
+     *
+     * @return String with values of 2-dim-array (parsedMap)
+     */
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < parsedMap.length; i++) {
+            if (i + 1 < parsedMap.length) {
+                for (int j = 0; j < parsedMap[i].length; j++) {
+                    sb.append(parsedMap[i][j]);
+                }
+                sb.append("\n");
+            } else {
+                for (int j = 0; j < parsedMap[i].length; j++) {
+                    sb.append(parsedMap[i][j]);
+                }
+            }
+        }
+        return sb.toString();
+    }
 
-		/**
-		 * Checks: is the syntax of the textfile correct? Checks: is there min
-		 * one starting Point Checks: is there exactly one destination Point
-		 * 
-		 * @return false -> Syntax wrong, true -> Syntax right
-		 * 
-		 * @throws SyntaxNotCorrectException
-		 */
-		public boolean isSyntaxCorrect() throws SyntaxNotCorrectException {
-			boolean a = false;
-			if (startPointsCounter < 1 || destinationPointsCounter < 1
-					|| startPointsCounter < destinationPointsCounter) {
-				throw new SyntaxNotCorrectException();
+    /**
+     * Checks: is the syntax of the textfile correct? Checks: is there min
+     * one starting Point Checks: is there exactly one destination Point
+     *
+     * @return false -> Syntax wrong, true -> Syntax right
+     * @throws SyntaxNotCorrectException
+     */
+    public boolean isSyntaxCorrect() throws SyntaxNotCorrectException {
+        boolean a = false;
+        if (startPointsCounter < 1 || destinationPointsCounter < 1
+                || startPointsCounter < destinationPointsCounter) {
+            throw new SyntaxNotCorrectException();
 
-			} else {
+        } else {
 
-				// pr�fen ob es einen Pfad vom Start zum Ziel gibt
-				for (int i = 0; i < parsedMap.length; i++) {
-					// pr�fen oder der Startpunkt angebunden ist. 0
-					// end of innner-loop (j)
-					for (int j = 0; j < parsedMap[0].length; j++)
-						if ((parsedMap[i][j] == 'S' && ((parsedMap[i + 1][j] == 'v' || parsedMap[i + 1][j] == '<' || parsedMap[i + 1][j] == '>')
-								|| (parsedMap[i - 1][j] == '^' || parsedMap[i - 1][j] == '<' || parsedMap[i - 1][j] == '>')
-								|| (parsedMap[i][j + 1] == '>' || parsedMap[i][j + 1] == '^' || parsedMap[i][j + 1] == 'v')
-								|| (parsedMap[i][j - 1] == '<' || parsedMap[i][j - 1] == '^' || parsedMap[i][j - 1] == 'v')))
-								// pr�fen ob mindestens ein Weg ins Ziel f�hrt
-								|| (parsedMap[i][j] == 'X' &&
-								(parsedMap[i + 1][j] == '^' || parsedMap[i - 1][j] == 'v' || parsedMap[i][j - 1] == '>' || parsedMap[i][j + 1] == '<'))
-								// pr�fen ob ein '>' immer destiniert.
-								|| (parsedMap[i][j] == '>' && (parsedMap[i][j + 1] == '>'
-								|| parsedMap[i][j + 1] == 'v' || parsedMap[i][j + 1] == '^' || parsedMap[i][j + 1] == 'X'))
-								// pr�fen ob ein '<' immer destiniert.
-								|| (parsedMap[i][j] == '<' && (parsedMap[i][j - 1] == '<'
-								|| parsedMap[i][j - 1] == 'v' || parsedMap[i][j - 1] == '^' || parsedMap[i][j - 1] == 'X'))
-								// pr�fen ob ein 'v' immer destiniert.
-								|| (parsedMap[i][j] == 'v' && (parsedMap[i + 1][j] == 'v'
-								|| parsedMap[i + 1][j] == '<' || parsedMap[i + 1][j] == '>' || parsedMap[i + 1][j] == 'X'))
-								// pr�fen ob ein '^' immer destiniert.
-								|| (parsedMap[i][j] == '^' && (parsedMap[i - 1][j] == '^'
-								|| parsedMap[i - 1][j] == '<' || parsedMap[i - 1][j] == '>' || parsedMap[i - 1][j] == 'X'))
-								// �berspringen von # und _
-								|| (parsedMap[i][j] == '#' || parsedMap[i][j] == '_' || parsedMap[i][j] == 't')) {
-							a = true;
-						} else {
-							throw new SyntaxNotCorrectException();
-						}
-				} // end of outer-loop (i)
-			} // end of else
-			return a;
-		} // end of class
+            // pr�fen ob es einen Pfad vom Start zum Ziel gibt
+            for (int i = 0; i < parsedMap.length; i++) {
+                // pr�fen oder der Startpunkt angebunden ist. 0
+                // end of innner-loop (j)
+                for (int j = 0; j < parsedMap[0].length; j++)
+                    if ((parsedMap[i][j] == 'S' && ((parsedMap[i + 1][j] == 'v' || parsedMap[i + 1][j] == '<' || parsedMap[i + 1][j] == '>')
+                            || (parsedMap[i - 1][j] == '^' || parsedMap[i - 1][j] == '<' || parsedMap[i - 1][j] == '>')
+                            || (parsedMap[i][j + 1] == '>' || parsedMap[i][j + 1] == '^' || parsedMap[i][j + 1] == 'v')
+                            || (parsedMap[i][j - 1] == '<' || parsedMap[i][j - 1] == '^' || parsedMap[i][j - 1] == 'v')))
+                            // pr�fen ob mindestens ein Weg ins Ziel f�hrt
+                            || (parsedMap[i][j] == 'X' &&
+                            (parsedMap[i + 1][j] == '^' || parsedMap[i - 1][j] == 'v' || parsedMap[i][j - 1] == '>' || parsedMap[i][j + 1] == '<'))
+                            // pr�fen ob ein '>' immer destiniert.
+                            || (parsedMap[i][j] == '>' && (parsedMap[i][j + 1] == '>'
+                            || parsedMap[i][j + 1] == 'v' || parsedMap[i][j + 1] == '^' || parsedMap[i][j + 1] == 'X'))
+                            // pr�fen ob ein '<' immer destiniert.
+                            || (parsedMap[i][j] == '<' && (parsedMap[i][j - 1] == '<'
+                            || parsedMap[i][j - 1] == 'v' || parsedMap[i][j - 1] == '^' || parsedMap[i][j - 1] == 'X'))
+                            // pr�fen ob ein 'v' immer destiniert.
+                            || (parsedMap[i][j] == 'v' && (parsedMap[i + 1][j] == 'v'
+                            || parsedMap[i + 1][j] == '<' || parsedMap[i + 1][j] == '>' || parsedMap[i + 1][j] == 'X'))
+                            // pr�fen ob ein '^' immer destiniert.
+                            || (parsedMap[i][j] == '^' && (parsedMap[i - 1][j] == '^'
+                            || parsedMap[i - 1][j] == '<' || parsedMap[i - 1][j] == '>' || parsedMap[i - 1][j] == 'X'))
+                            // �berspringen von # und _
+                            || (parsedMap[i][j] == '#' || parsedMap[i][j] == '_' || parsedMap[i][j] == 't')) {
+                        a = true;
+                    } else {
+                        throw new SyntaxNotCorrectException();
+                    }
+            } // end of outer-loop (i)
+        } // end of else
+        return a;
+    } // end of class
 
-		/**
-		 * Creates from the array (parsedMap) a new 1-dim-array (GuiObject)
-		 * 
-		 * @throws SyntaxNotCorrectException
-		 */
-		public void arrayToGuiObject() throws SyntaxNotCorrectException {
-			Random rand = new Random();
-			
-			if (isSyntaxCorrect()) {
+    /**
+     * Creates from the array (parsedMap) a new 1-dim-array (GuiObject)
+     *
+     * @throws SyntaxNotCorrectException
+     */
+    public void arrayToGuiObject() throws SyntaxNotCorrectException {
+        Random rand = new Random();
 
-				for (int i = 0; i < parsedMap.length; i++) {
-					for (int j = 0; j < parsedMap[0].length; j++) {
+        if (isSyntaxCorrect()) {
 
-						/*--------------------------------------------------------------------------------*/
-						// north-west border
-						if (parsedMap[i][j] == '#' && i == 0  && j == 0)
-						{
-							new GuiObject("border_nw" + counter, j, i);
-							counter++;
-						}
-						// north-east border
-						else if (parsedMap[i][j] == '#' &&  i == 0 && j == parsedMap[0].length-1)
-						{
-							new GuiObject("border_ne" + counter, j, i);
-							counter++;
-						}
-						// south-east border
-						else if (parsedMap[i][j] == '#' &&  i == parsedMap.length-1 && j == parsedMap[0].length-1)
-						{
-							new GuiObject("border_se" + counter, j, i);
-							counter++;
-						}
-						// south-west border
-						else if (parsedMap[i][j] == '#' && i == parsedMap.length-1 && j == 0)
-						{
-							new GuiObject("border_sw" + counter, j, i);
-							counter++;
-						}									
-						// border east-side
-						else if(parsedMap[i][j] == '#' && j == parsedMap[0].length-1  && (i > 0 && i < parsedMap.length-1))
-						{
-							new GuiObject("border_e" + counter, j, i);
-							counter++;
-						}
-						// border west-side
-						else if(parsedMap[i][j] == '#' && j == 0 && i < parsedMap.length - 1)
-						{
-							new GuiObject("border_w" + counter, j, i);
-							counter++;
-						}
-						// border north-side
-						else if (parsedMap[i][j] == '#' && i == 0 && j < parsedMap[0].length - 1)
-						{
-							new GuiObject("border_n" + counter, j, i);
-							counter++;
-						}
-						// border south-side
-						else if (parsedMap[i][j] == '#' && i == parsedMap.length-1  && (j > 0 && j < parsedMap[0].length-1))
-						{
-							new GuiObject("border_s" + counter, j, i);
-							counter++;
-						}
+            for (int i = 0; i < parsedMap.length; i++) {
+                for (int j = 0; j < parsedMap[0].length; j++) {
 
-						/*--------------------------------------------------------------------------------*/
-						// This is a tower defined in the Map (picture ...png)
-						else if ((parsedMap[i][j] == 't')) {
-							// Set value of GuiObject Array
-							new GuiObject("tower" + counter, j, i);
-							counter++;
-						}
-						/*--------------------------------------------------------------------------------*/
-						// This is a empty field in the Map (picture back.png)
-						else if ((parsedMap[i][j] == '_')) {
-							// Set value of GuiObject Array
-							if(rand.nextBoolean()){
-								new GuiObject("flower" + counter, j, i);
-								counter++;
-							}else if(rand.nextBoolean()){
-								new GuiObject("tree" + counter, j, i);
-								counter++;
-							}else {
-								new GuiObject("field" + counter, j, i);
-								counter++;
-							}
-						}
-						/*--------------------------------------------------------------------------------*/
-						// This is a release-point
-						else if (parsedMap[i][j] == 'S') {
-							// picture (su.png)
-							if ((parsedMap[i][j] == 'S'
-									&& parsedMap[i + 1][j] == 'v'
-									&& parsedMap[i + 1][j + 1] != '<' && parsedMap[i + 1][j - 1] != '>')
-									|| (parsedMap[i][j] == 'S'
-											&& parsedMap[i + 1][j] == '>'
-											&& parsedMap[i + 1][j - 1] != '>' && parsedMap[i + 2][j] != '^')
-									|| (parsedMap[i][j] == 'S'
-											&& parsedMap[i + 1][j] == '<'
-											&& parsedMap[i + 1][j + 1] != '<' && parsedMap[i + 2][j] != '^')) {
-								new GuiObject("start_south" + startcounter, j,
-										i);
-								startcounter++;
-							}
-							// picture (so.png)
-							else if ((parsedMap[i][j] == 'S'
-									&& parsedMap[i - 1][j] == '^'
-									&& parsedMap[i - 1][j - 1] != '>' && parsedMap[i - 1][j + 1] != '<')
-									|| (parsedMap[i][j] == 'S'
-											&& parsedMap[i - 1][j] == '<'
-											&& parsedMap[i - 2][j] != 'v' && parsedMap[i - 1][j + 1] != '<')
-									|| (parsedMap[i][j] == 'S'
-											&& parsedMap[i - 1][j] == '>'
-											&& parsedMap[i - 2][j] != 'v' && parsedMap[i - 1][j - 1] != '>')) {
-								new GuiObject("start_north" + startcounter, j,
-										i);
-								startcounter++;
-							}
-							// picture (sr.png)
-							else if ((parsedMap[i][j] == 'S'
-									&& parsedMap[i][j + 1] == '>'
-									&& parsedMap[i + 1][j + 1] != '^' && parsedMap[i - 1][j + 1] != 'v')
-									|| (parsedMap[i][j] == 'S'
-											&& parsedMap[i][j + 1] == 'v'
-											&& parsedMap[i - 1][j + 1] != 'v' && parsedMap[i][j + 2] != '<')
-									|| (parsedMap[i][j] == 'S'
-											&& parsedMap[i][j + 1] == '^'
-											&& parsedMap[i + 1][j + 1] != '^' && parsedMap[i][j + 2] != '<')) {
-								new GuiObject("start_east" + startcounter, j, i);
-								startcounter++;
-							}
-							// picture (sl.png)
-							else if ((parsedMap[i][j] == 'S'
-									&& parsedMap[i][j - 1] == '<'
-									&& parsedMap[i - 1][j + 1] != 'v' && parsedMap[i + 1][j - 1] != '^')
-									|| (parsedMap[i][j] == 'S'
-											&& parsedMap[i][j - 1] == 'v'
-											&& parsedMap[i - 1][j - 1] != 'v' && parsedMap[i][j - 2] != '>')
-									|| (parsedMap[i][j] == 'S'
-											&& parsedMap[i][j - 1] == '^'
-											&& parsedMap[i + 1][j - 1] != '^' && parsedMap[i][j - 2] != '>')) {
-								new GuiObject("start_west" + startcounter, j, i);
-								startcounter++;
-							}
-						}
+                    /*--------------------------------------------------------------------------------*/
+                    // north-west border
+                    if (parsedMap[i][j] == '#' && i == 0 && j == 0) {
+                        new GuiObject("border_nw" + counter, j, i);
+                        counter++;
+                    }
+                    // north-east border
+                    else if (parsedMap[i][j] == '#' && i == 0 && j == parsedMap[0].length - 1) {
+                        new GuiObject("border_ne" + counter, j, i);
+                        counter++;
+                    }
+                    // south-east border
+                    else if (parsedMap[i][j] == '#' && i == parsedMap.length - 1 && j == parsedMap[0].length - 1) {
+                        new GuiObject("border_se" + counter, j, i);
+                        counter++;
+                    }
+                    // south-west border
+                    else if (parsedMap[i][j] == '#' && i == parsedMap.length - 1 && j == 0) {
+                        new GuiObject("border_sw" + counter, j, i);
+                        counter++;
+                    }
+                    // border east-side
+                    else if (parsedMap[i][j] == '#' && j == parsedMap[0].length - 1 && (i > 0 && i < parsedMap.length - 1)) {
+                        new GuiObject("border_e" + counter, j, i);
+                        counter++;
+                    }
+                    // border west-side
+                    else if (parsedMap[i][j] == '#' && j == 0 && i < parsedMap.length - 1) {
+                        new GuiObject("border_w" + counter, j, i);
+                        counter++;
+                    }
+                    // border north-side
+                    else if (parsedMap[i][j] == '#' && i == 0 && j < parsedMap[0].length - 1) {
+                        new GuiObject("border_n" + counter, j, i);
+                        counter++;
+                    }
+                    // border south-side
+                    else if (parsedMap[i][j] == '#' && i == parsedMap.length - 1 && (j > 0 && j < parsedMap[0].length - 1)) {
+                        new GuiObject("border_s" + counter, j, i);
+                        counter++;
+                    }
 
-						/*--------------------------------------------------------------------------------*/
-						// This is the destination-point
-						// Checks whether there is only one opportunity for the
-						// monsters to walk into finish
+                    /*--------------------------------------------------------------------------------*/
+                    // This is a tower defined in the Map (picture ...png)
+                    else if ((parsedMap[i][j] == 't')) {
+                        // Set value of GuiObject Array
+                        new GuiObject("tower" + counter, j, i);
+                        counter++;
+                    }
+                    /*--------------------------------------------------------------------------------*/
+                    // This is a empty field in the Map (picture back.png)
+                    else if ((parsedMap[i][j] == '_')) {
+                        // Set value of GuiObject Array
+                        if (rand.nextBoolean()) {
+                            new GuiObject("flower" + counter, j, i);
+                            counter++;
+                        } else if (rand.nextBoolean()) {
+                            new GuiObject("tree" + counter, j, i);
+                            counter++;
+                        } else {
+                            new GuiObject("field" + counter, j, i);
+                            counter++;
+                        }
+                    }
+                    /*--------------------------------------------------------------------------------*/
+                    // This is a release-point
+                    else if (parsedMap[i][j] == 'S') {
+                        // picture (su.png)
+                        if ((parsedMap[i][j] == 'S'
+                                && parsedMap[i + 1][j] == 'v'
+                                && parsedMap[i + 1][j + 1] != '<' && parsedMap[i + 1][j - 1] != '>')
+                                || (parsedMap[i][j] == 'S'
+                                && parsedMap[i + 1][j] == '>'
+                                && parsedMap[i + 1][j - 1] != '>' && parsedMap[i + 2][j] != '^')
+                                || (parsedMap[i][j] == 'S'
+                                && parsedMap[i + 1][j] == '<'
+                                && parsedMap[i + 1][j + 1] != '<' && parsedMap[i + 2][j] != '^')) {
+                            new GuiObject("start_south" + startcounter, j,
+                                    i);
+                            startcounter++;
+                        }
+                        // picture (so.png)
+                        else if ((parsedMap[i][j] == 'S'
+                                && parsedMap[i - 1][j] == '^'
+                                && parsedMap[i - 1][j - 1] != '>' && parsedMap[i - 1][j + 1] != '<')
+                                || (parsedMap[i][j] == 'S'
+                                && parsedMap[i - 1][j] == '<'
+                                && parsedMap[i - 2][j] != 'v' && parsedMap[i - 1][j + 1] != '<')
+                                || (parsedMap[i][j] == 'S'
+                                && parsedMap[i - 1][j] == '>'
+                                && parsedMap[i - 2][j] != 'v' && parsedMap[i - 1][j - 1] != '>')) {
+                            new GuiObject("start_north" + startcounter, j,
+                                    i);
+                            startcounter++;
+                        }
+                        // picture (sr.png)
+                        else if ((parsedMap[i][j] == 'S'
+                                && parsedMap[i][j + 1] == '>'
+                                && parsedMap[i + 1][j + 1] != '^' && parsedMap[i - 1][j + 1] != 'v')
+                                || (parsedMap[i][j] == 'S'
+                                && parsedMap[i][j + 1] == 'v'
+                                && parsedMap[i - 1][j + 1] != 'v' && parsedMap[i][j + 2] != '<')
+                                || (parsedMap[i][j] == 'S'
+                                && parsedMap[i][j + 1] == '^'
+                                && parsedMap[i + 1][j + 1] != '^' && parsedMap[i][j + 2] != '<')) {
+                            new GuiObject("start_east" + startcounter, j, i);
+                            startcounter++;
+                        }
+                        // picture (sl.png)
+                        else if ((parsedMap[i][j] == 'S'
+                                && parsedMap[i][j - 1] == '<'
+                                && parsedMap[i - 1][j + 1] != 'v' && parsedMap[i + 1][j - 1] != '^')
+                                || (parsedMap[i][j] == 'S'
+                                && parsedMap[i][j - 1] == 'v'
+                                && parsedMap[i - 1][j - 1] != 'v' && parsedMap[i][j - 2] != '>')
+                                || (parsedMap[i][j] == 'S'
+                                && parsedMap[i][j - 1] == '^'
+                                && parsedMap[i + 1][j - 1] != '^' && parsedMap[i][j - 2] != '>')) {
+                            new GuiObject("start_west" + startcounter, j, i);
+                            startcounter++;
+                        }
+                    }
 
-						// Finish from north (picture zo.png)
-						else if ((parsedMap[i][j] == 'X' && parsedMap[i - 1][j] == 'v')
-								&& (parsedMap[i][j - 1] != '>')
-								&& (parsedMap[i][j + 1] != '<')
-								&& (parsedMap[i + 1][j] != '^')) {
-							new GuiObject("finish_north" + counter, j, i);
-							counter++;
-						}
+                    /*--------------------------------------------------------------------------------*/
+                    // This is the destination-point
+                    // Checks whether there is only one opportunity for the
+                    // monsters to walk into finish
 
-						// Finish from south (picture zu.png)
-						else if ((parsedMap[i][j] == 'X' && parsedMap[i + 1][j] == '^')
-								&& (parsedMap[i][j - 1] != '>')
-								&& (parsedMap[i][j + 1] != '<')
-								&& (parsedMap[i - 1][j] != 'v')) {
-							new GuiObject("finish_south" + counter, j, i);
-							counter++;
-						}
+                    // Finish from north (picture zo.png)
+                    else if ((parsedMap[i][j] == 'X' && parsedMap[i - 1][j] == 'v')
+                            && (parsedMap[i][j - 1] != '>')
+                            && (parsedMap[i][j + 1] != '<')
+                            && (parsedMap[i + 1][j] != '^')) {
+                        new GuiObject("finish_north" + counter, j, i);
+                        counter++;
+                    }
 
-						// Finish from west (picture zl.png)
-						else if ((parsedMap[i][j] == 'X' && parsedMap[i][j - 1] == '>')
-								&& (parsedMap[i][j + 1] != '<')
-								&& (parsedMap[i + 1][j] != '^')
-								&& (parsedMap[i - 1][j] != 'v')) {
-							new GuiObject("finish_west" + counter, j, i);
-							counter++;
-						}
+                    // Finish from south (picture zu.png)
+                    else if ((parsedMap[i][j] == 'X' && parsedMap[i + 1][j] == '^')
+                            && (parsedMap[i][j - 1] != '>')
+                            && (parsedMap[i][j + 1] != '<')
+                            && (parsedMap[i - 1][j] != 'v')) {
+                        new GuiObject("finish_south" + counter, j, i);
+                        counter++;
+                    }
 
-						// Finish from west (picture zr.png)
-						else if ((parsedMap[i][j] == 'X' && parsedMap[i][j + 1] == '<')
-								&& (parsedMap[i][j - 1] != '>')
-								&& (parsedMap[i + 1][j] != '^')
-								&& (parsedMap[i - 1][j] != 'v')) {
-							new GuiObject("finish_east" + counter, j, i);
-							counter++;
-						}
+                    // Finish from west (picture zl.png)
+                    else if ((parsedMap[i][j] == 'X' && parsedMap[i][j - 1] == '>')
+                            && (parsedMap[i][j + 1] != '<')
+                            && (parsedMap[i + 1][j] != '^')
+                            && (parsedMap[i - 1][j] != 'v')) {
+                        new GuiObject("finish_west" + counter, j, i);
+                        counter++;
+                    }
 
-						/*--------------------------------------------------------------------------------*/
-						// This is the t-cross to south (picture: tku.png)
-						else if ((parsedMap[i][j] == '>'
-								&& (parsedMap[i - 1][j] != 'v' || parsedMap[i - 1][j] != 'S')
-								&& (parsedMap[i + 1][j] == '^')
-								&& (parsedMap[i][j + 1] == '>'
-										|| parsedMap[i][j + 1] == '^'
-										|| parsedMap[i][j + 1] == 'v' || parsedMap[i][j + 1] == 'X') && (parsedMap[i][j - 1] == '>'))
-								|| (parsedMap[i][j] == '<'
-										&& (parsedMap[i - 1][j] != 'v' || parsedMap[i - 1][j] != 'S')
-										&& (parsedMap[i + 1][j] == '^')
-										&& (parsedMap[i][j - 1] == '<'
-												|| parsedMap[i][j - 1] == '^'
-												|| parsedMap[i][j - 1] == 'v' || parsedMap[i][j - 1] == 'X') && (parsedMap[i][j + 1] == '<'))
-								|| (parsedMap[i][j] == 'v'
-										&& (parsedMap[i - 1][j] != 'v' || parsedMap[i - 1][j] != 'S')
-										&& (parsedMap[i + 1][j] == 'v'
-												|| parsedMap[i + 1][j] == '<'
-												|| parsedMap[i + 1][j] == '>' || parsedMap[i + 1][j] == 'X')
-										&& (parsedMap[i][j - 1] == '>') && (parsedMap[i][j + 1] == '<'))) {
-							new GuiObject("tcs" + counter, j, i);
-							counter++;
-						}
+                    // Finish from west (picture zr.png)
+                    else if ((parsedMap[i][j] == 'X' && parsedMap[i][j + 1] == '<')
+                            && (parsedMap[i][j - 1] != '>')
+                            && (parsedMap[i + 1][j] != '^')
+                            && (parsedMap[i - 1][j] != 'v')) {
+                        new GuiObject("finish_east" + counter, j, i);
+                        counter++;
+                    }
 
-						/*--------------------------------------------------------------------------------*/
-						// This is the t-cross to east (picture: tkr.png)
-						else if ((parsedMap[i][j] == '^'
-								&& (parsedMap[i - 1][j] == '^'
-										|| parsedMap[i - 1][j] == 'X'
-										|| parsedMap[i - 1][j] == '<' || parsedMap[i - 1][j] == '>')
-								&& (parsedMap[i + 1][j] == '^')
-								&& (parsedMap[i][j + 1] == '<') && (parsedMap[i][j - 1] != '>' || parsedMap[i][j - 1] != 'S'))
-								|| (parsedMap[i][j] == 'v'
-										&& (parsedMap[i - 1][j] == 'v')
-										&& (parsedMap[i + 1][j] == 'v'
-												|| parsedMap[i + 1][j] == '<'
-												|| parsedMap[i + 1][j] == '>' || parsedMap[i + 1][j] == 'X')
-										&& (parsedMap[i][j + 1] == '<') && (parsedMap[i][j - 1] != '>' || parsedMap[i][j - 1] != 'S'))
-								|| (parsedMap[i][j] == '>'
-										&& (parsedMap[i - 1][j] == 'v')
-										&& (parsedMap[i + 1][j] == '^')
-										&& (parsedMap[i][j - 1] != '>' || parsedMap[i][j - 1] != 'S') && (parsedMap[i][j + 1] == '>'
-										|| parsedMap[i][j + 1] == 'X'
-										|| parsedMap[i][j + 1] == '^' || parsedMap[i][j + 1] == 'v'))) {
-							new GuiObject("tce" + counter, j, i);
-							counter++;
-						}
+                    /*--------------------------------------------------------------------------------*/
+                    // This is the t-cross to south (picture: tku.png)
+                    else if ((parsedMap[i][j] == '>'
+                            && (parsedMap[i - 1][j] != 'v' || parsedMap[i - 1][j] != 'S')
+                            && (parsedMap[i + 1][j] == '^')
+                            && (parsedMap[i][j + 1] == '>'
+                            || parsedMap[i][j + 1] == '^'
+                            || parsedMap[i][j + 1] == 'v' || parsedMap[i][j + 1] == 'X') && (parsedMap[i][j - 1] == '>'))
+                            || (parsedMap[i][j] == '<'
+                            && (parsedMap[i - 1][j] != 'v' || parsedMap[i - 1][j] != 'S')
+                            && (parsedMap[i + 1][j] == '^')
+                            && (parsedMap[i][j - 1] == '<'
+                            || parsedMap[i][j - 1] == '^'
+                            || parsedMap[i][j - 1] == 'v' || parsedMap[i][j - 1] == 'X') && (parsedMap[i][j + 1] == '<'))
+                            || (parsedMap[i][j] == 'v'
+                            && (parsedMap[i - 1][j] != 'v' || parsedMap[i - 1][j] != 'S')
+                            && (parsedMap[i + 1][j] == 'v'
+                            || parsedMap[i + 1][j] == '<'
+                            || parsedMap[i + 1][j] == '>' || parsedMap[i + 1][j] == 'X')
+                            && (parsedMap[i][j - 1] == '>') && (parsedMap[i][j + 1] == '<'))) {
+                        new GuiObject("tcs" + counter, j, i);
+                        counter++;
+                    }
 
-						/*--------------------------------------------------------------------------------*/
-						// This is the t-cross to west (picture: tkl.png)
-						else if ((parsedMap[i][j] == '^'
-								&& (parsedMap[i - 1][j] == '^'
-										|| parsedMap[i - 1][j] == 'X'
-										|| parsedMap[i - 1][j] == '<' || parsedMap[i - 1][j] == '>')
-								&& (parsedMap[i + 1][j] == '^')
-								&& (parsedMap[i][j + 1] != '<' || parsedMap[i][j + 1] != 'S') && (parsedMap[i][j - 1] == '>'))
-								|| (parsedMap[i][j] == 'v'
-										&& (parsedMap[i - 1][j] == 'v')
-										&& (parsedMap[i + 1][j] == 'v'
-												|| parsedMap[i + 1][j] == '<'
-												|| parsedMap[i + 1][j] == '>' || parsedMap[i + 1][j] == 'X')
-										&& (parsedMap[i][j + 1] != '<') && (parsedMap[i][j - 1] == '>' || parsedMap[i][j - 1] == 'S'))
-								|| (parsedMap[i][j] == '<'
-										&& (parsedMap[i - 1][j] == 'v')
-										&& (parsedMap[i + 1][j] == '^')
-										&& (parsedMap[i][j + 1] != '<' || parsedMap[i][j + 1] != 'S') && (parsedMap[i][j - 1] == '<'
-										|| parsedMap[i][j - 1] == 'X'
-										|| parsedMap[i][j - 1] == '^' || parsedMap[i][j - 1] == 'v'))) {
-							new GuiObject("tcw" + counter, j, i);
-							counter++;
-						}
-						/*--------------------------------------------------------------------------------*/
-						// This is the t-cross to north (picture: tkn.png)
-						else if ((parsedMap[i][j] == '^'
-								&& (parsedMap[i - 1][j] == '^'
-										|| parsedMap[i - 1][j] == 'X'
-										|| parsedMap[i - 1][j] == '<' || parsedMap[i - 1][j] == '>')
-								&& (parsedMap[i + 1][j] != '^' || parsedMap[i + 1][j] != 'S')
-								&& (parsedMap[i][j + 1] == '<') && (parsedMap[i][j - 1] == '>'))
-								|| (parsedMap[i][j] == '>'
-										&& (parsedMap[i - 1][j] == 'v')
-										&& (parsedMap[i + 1][j] != '^' || parsedMap[i + 1][j] != 'S')
-										&& (parsedMap[i][j - 1] == '>') && (parsedMap[i][j + 1] == '>'
-										|| parsedMap[i][j + 1] == 'X'
-										|| parsedMap[i][j + 1] == '^' || parsedMap[i][j + 1] == 'v'))
-								|| (parsedMap[i][j] == '<'
-										&& (parsedMap[i - 1][j] == 'v')
-										&& (parsedMap[i + 1][j] != '^' || parsedMap[i + 1][j] != 'S')
-										&& (parsedMap[i][j + 1] == '<') && (parsedMap[i][j - 1] == '<'
-										|| parsedMap[i][j - 1] == 'X'
-										|| parsedMap[i][j - 1] == '^' || parsedMap[i][j - 1] == 'v'))) {
-							new GuiObject("tcn" + counter, j, i);
-							counter++;
-						}
-						
-						/*--------------------------------------------------------------------------------*/
-						// This is the west-east-straight (picture: lr.png)
-						else if ((parsedMap[i][j] == '<'
-								&& (parsedMap[i - 1][j] != 'v')
-								&& (parsedMap[i + 1][j] != '^')
-								&& (parsedMap[i][j - 1] == '<'|| parsedMap[i][j - 1] == 'X'	|| parsedMap[i][j - 1] == '^' || parsedMap[i][j - 1] == 'v') 
-								&& (parsedMap[i][j + 1] == '<' || parsedMap[i][j + 1] == 'S'))
-								|| (parsedMap[i][j] == '>'
-									&& (parsedMap[i - 1][j] != 'v')
-									&& (parsedMap[i + 1][j] != '^')
-									&& (parsedMap[i][j + 1] == '>'	|| parsedMap[i][j + 1] == 'X'|| parsedMap[i][j + 1] == '^' || parsedMap[i][j + 1] == 'v') 
-									&& (parsedMap[i][j - 1] == '>' || parsedMap[i][j - 1] == 'S'))) {
-							new GuiObject("swe" + counter, j, i);
-							counter++;
-						}
+                    /*--------------------------------------------------------------------------------*/
+                    // This is the t-cross to east (picture: tkr.png)
+                    else if ((parsedMap[i][j] == '^'
+                            && (parsedMap[i - 1][j] == '^'
+                            || parsedMap[i - 1][j] == 'X'
+                            || parsedMap[i - 1][j] == '<' || parsedMap[i - 1][j] == '>')
+                            && (parsedMap[i + 1][j] == '^')
+                            && (parsedMap[i][j + 1] == '<') && (parsedMap[i][j - 1] != '>' || parsedMap[i][j - 1] != 'S'))
+                            || (parsedMap[i][j] == 'v'
+                            && (parsedMap[i - 1][j] == 'v')
+                            && (parsedMap[i + 1][j] == 'v'
+                            || parsedMap[i + 1][j] == '<'
+                            || parsedMap[i + 1][j] == '>' || parsedMap[i + 1][j] == 'X')
+                            && (parsedMap[i][j + 1] == '<') && (parsedMap[i][j - 1] != '>' || parsedMap[i][j - 1] != 'S'))
+                            || (parsedMap[i][j] == '>'
+                            && (parsedMap[i - 1][j] == 'v')
+                            && (parsedMap[i + 1][j] == '^')
+                            && (parsedMap[i][j - 1] != '>' || parsedMap[i][j - 1] != 'S') && (parsedMap[i][j + 1] == '>'
+                            || parsedMap[i][j + 1] == 'X'
+                            || parsedMap[i][j + 1] == '^' || parsedMap[i][j + 1] == 'v'))) {
+                        new GuiObject("tce" + counter, j, i);
+                        counter++;
+                    }
 
-						/*--------------------------------------------------------------------------------*/
-						// This is the north-south-straight (picture: ou.png)
-						else if ((parsedMap[i][j] == '^'
-								&& (parsedMap[i - 1][j] == '<'|| parsedMap[i - 1][j] == '>'	|| parsedMap[i - 1][j] == '^' || parsedMap[i - 1][j] == 'X')
-								&& (parsedMap[i + 1][j] == 'S' || parsedMap[i + 1][j] == '^')
-								&& (parsedMap[i][j + 1] != '<') 
-								&& (parsedMap[i][j - 1] != '>'))
-								|| (parsedMap[i][j] == 'v'
-									&& (parsedMap[i - 1][j] == 'S' || parsedMap[i - 1][j] == 'v')
-									&& (parsedMap[i + 1][j] == '<' || parsedMap[i + 1][j] == '>' || parsedMap[i + 1][j] == 'v' || parsedMap[i + 1][j] == 'X')
-									&& (parsedMap[i][j + 1] != '<') 
-									&& (parsedMap[i][j - 1] != '>'))) {
-							new GuiObject("sns" + counter, j, i);
-							counter++;
-						}
-						/*--------------------------------------------------------------------------------*/
-						// This is a curve from west-to-south (picture: lu.png)
-						else if ((parsedMap[i][j] == 'v'
-								&& (/* parsedMap[i - 1][j] != 'S' && */parsedMap[i - 1][j] != 'v')
-								&& (parsedMap[i + 1][j] == 'v'
-										|| parsedMap[i + 1][j] == '>'
-										|| parsedMap[i + 1][j] == '<' || parsedMap[i + 1][j] == 'X')
-								&& (parsedMap[i][j + 1] != '<') && (parsedMap[i][j - 1] == '>' || parsedMap[i][j - 1] == 'S'))
-								|| (parsedMap[i][j] == '<'
-										&& (parsedMap[i - 1][j] != 'v')
-										&& (parsedMap[i + 1][j] == '^' || parsedMap[i + 1][j] == 'S')
-										&& (/* parsedMap[i][j + 1] != 'S' && */parsedMap[i][j + 1] != '<') && (parsedMap[i][j - 1] == '<'
-										|| parsedMap[i][j - 1] == '^'
-										|| parsedMap[i][j - 1] == 'v' || parsedMap[i][j - 1] == 'X'))) {
-							new GuiObject("cws" + counter, j, i);
-							counter++;
-						}
+                    /*--------------------------------------------------------------------------------*/
+                    // This is the t-cross to west (picture: tkl.png)
+                    else if ((parsedMap[i][j] == '^'
+                            && (parsedMap[i - 1][j] == '^'
+                            || parsedMap[i - 1][j] == 'X'
+                            || parsedMap[i - 1][j] == '<' || parsedMap[i - 1][j] == '>')
+                            && (parsedMap[i + 1][j] == '^')
+                            && (parsedMap[i][j + 1] != '<' || parsedMap[i][j + 1] != 'S') && (parsedMap[i][j - 1] == '>'))
+                            || (parsedMap[i][j] == 'v'
+                            && (parsedMap[i - 1][j] == 'v')
+                            && (parsedMap[i + 1][j] == 'v'
+                            || parsedMap[i + 1][j] == '<'
+                            || parsedMap[i + 1][j] == '>' || parsedMap[i + 1][j] == 'X')
+                            && (parsedMap[i][j + 1] != '<') && (parsedMap[i][j - 1] == '>' || parsedMap[i][j - 1] == 'S'))
+                            || (parsedMap[i][j] == '<'
+                            && (parsedMap[i - 1][j] == 'v')
+                            && (parsedMap[i + 1][j] == '^')
+                            && (parsedMap[i][j + 1] != '<' || parsedMap[i][j + 1] != 'S') && (parsedMap[i][j - 1] == '<'
+                            || parsedMap[i][j - 1] == 'X'
+                            || parsedMap[i][j - 1] == '^' || parsedMap[i][j - 1] == 'v'))) {
+                        new GuiObject("tcw" + counter, j, i);
+                        counter++;
+                    }
+                    /*--------------------------------------------------------------------------------*/
+                    // This is the t-cross to north (picture: tkn.png)
+                    else if ((parsedMap[i][j] == '^'
+                            && (parsedMap[i - 1][j] == '^'
+                            || parsedMap[i - 1][j] == 'X'
+                            || parsedMap[i - 1][j] == '<' || parsedMap[i - 1][j] == '>')
+                            && (parsedMap[i + 1][j] != '^' || parsedMap[i + 1][j] != 'S')
+                            && (parsedMap[i][j + 1] == '<') && (parsedMap[i][j - 1] == '>'))
+                            || (parsedMap[i][j] == '>'
+                            && (parsedMap[i - 1][j] == 'v')
+                            && (parsedMap[i + 1][j] != '^' || parsedMap[i + 1][j] != 'S')
+                            && (parsedMap[i][j - 1] == '>') && (parsedMap[i][j + 1] == '>'
+                            || parsedMap[i][j + 1] == 'X'
+                            || parsedMap[i][j + 1] == '^' || parsedMap[i][j + 1] == 'v'))
+                            || (parsedMap[i][j] == '<'
+                            && (parsedMap[i - 1][j] == 'v')
+                            && (parsedMap[i + 1][j] != '^' || parsedMap[i + 1][j] != 'S')
+                            && (parsedMap[i][j + 1] == '<') && (parsedMap[i][j - 1] == '<'
+                            || parsedMap[i][j - 1] == 'X'
+                            || parsedMap[i][j - 1] == '^' || parsedMap[i][j - 1] == 'v'))) {
+                        new GuiObject("tcn" + counter, j, i);
+                        counter++;
+                    }
 
-						/*--------------------------------------------------------------------------------*/
-						// This is a curve from west-to-north (picture: lo.png)
-						else if ((parsedMap[i][j] == '^'
-									&& (parsedMap[i - 1][j] == '<' || parsedMap[i - 1][j] == '>' || parsedMap[i - 1][j] == '^' || parsedMap[i - 1][j] == 'X')
-									&& (parsedMap[i + 1][j] != '^' || parsedMap[i + 1][j] != 'S')
-									&& (parsedMap[i][j + 1] != '<') 
-									&& (parsedMap[i][j - 1] == '>' || (parsedMap[i][j - 1] == 'S' && parsedMap[i + 1][j] != '^')))
-								|| (parsedMap[i][j] == '<'
-									&& (parsedMap[i - 1][j] == 'v' || parsedMap[i - 1][j] == 'S')
-									&& (parsedMap[i + 1][j] != '^')
-									&& (parsedMap[i][j + 1] != '<' || parsedMap[i][j + 1] != 'S') 
-									&& (parsedMap[i][j - 1] == '<' || parsedMap[i][j - 1] == '^'|| parsedMap[i][j - 1] == 'v' || parsedMap[i][j - 1] == 'X'))) {
-							new GuiObject("cwn" + counter, j, i);
-							counter++;
-						}
+                    /*--------------------------------------------------------------------------------*/
+                    // This is the west-east-straight (picture: lr.png)
+                    else if ((parsedMap[i][j] == '<'
+                            && (parsedMap[i - 1][j] != 'v')
+                            && (parsedMap[i + 1][j] != '^')
+                            && (parsedMap[i][j - 1] == '<' || parsedMap[i][j - 1] == 'X' || parsedMap[i][j - 1] == '^' || parsedMap[i][j - 1] == 'v')
+                            && (parsedMap[i][j + 1] == '<' || parsedMap[i][j + 1] == 'S'))
+                            || (parsedMap[i][j] == '>'
+                            && (parsedMap[i - 1][j] != 'v')
+                            && (parsedMap[i + 1][j] != '^')
+                            && (parsedMap[i][j + 1] == '>' || parsedMap[i][j + 1] == 'X' || parsedMap[i][j + 1] == '^' || parsedMap[i][j + 1] == 'v')
+                            && (parsedMap[i][j - 1] == '>' || parsedMap[i][j - 1] == 'S'))) {
+                        new GuiObject("swe" + counter, j, i);
+                        counter++;
+                    }
 
-						/*--------------------------------------------------------------------------------*/
-						// This is a curve from east-to-north (picture: ro.png)
-						else if ((parsedMap[i][j] == '^'
-								&& (parsedMap[i - 1][j] == '^'|| parsedMap[i - 1][j] == '<'	|| parsedMap[i - 1][j] == '>' || parsedMap[i - 1][j] == 'X')
-								&& (parsedMap[i + 1][j] != '^')
-								&& (parsedMap[i][j + 1] == '<' || parsedMap[i][j + 1] == 'S') 
-								&& (parsedMap[i][j - 1] != '>'))
-								|| (parsedMap[i][j] == '>'
-								&& (parsedMap[i - 1][j] == 'v' || parsedMap[i - 1][j] == 'S')
-								&& (parsedMap[i + 1][j] != '^')
-								&& (parsedMap[i][j + 1] == '>'|| parsedMap[i][j + 1] == '^'	|| parsedMap[i][j + 1] == 'v' || parsedMap[i][j + 1] == 'X') 
-								&& (parsedMap[i][j - 1] != '>'))) {
-							new GuiObject("cen" + counter, j, i);
-							counter++;
-						}
+                    /*--------------------------------------------------------------------------------*/
+                    // This is the north-south-straight (picture: ou.png)
+                    else if ((parsedMap[i][j] == '^'
+                            && (parsedMap[i - 1][j] == '<' || parsedMap[i - 1][j] == '>' || parsedMap[i - 1][j] == '^' || parsedMap[i - 1][j] == 'X')
+                            && (parsedMap[i + 1][j] == 'S' || parsedMap[i + 1][j] == '^')
+                            && (parsedMap[i][j + 1] != '<')
+                            && (parsedMap[i][j - 1] != '>'))
+                            || (parsedMap[i][j] == 'v'
+                            && (parsedMap[i - 1][j] == 'S' || parsedMap[i - 1][j] == 'v')
+                            && (parsedMap[i + 1][j] == '<' || parsedMap[i + 1][j] == '>' || parsedMap[i + 1][j] == 'v' || parsedMap[i + 1][j] == 'X')
+                            && (parsedMap[i][j + 1] != '<')
+                            && (parsedMap[i][j - 1] != '>'))) {
+                        new GuiObject("sns" + counter, j, i);
+                        counter++;
+                    }
+                    /*--------------------------------------------------------------------------------*/
+                    // This is a curve from west-to-south (picture: lu.png)
+                    else if ((parsedMap[i][j] == 'v'
+                            && (/* parsedMap[i - 1][j] != 'S' && */parsedMap[i - 1][j] != 'v')
+                            && (parsedMap[i + 1][j] == 'v'
+                            || parsedMap[i + 1][j] == '>'
+                            || parsedMap[i + 1][j] == '<' || parsedMap[i + 1][j] == 'X')
+                            && (parsedMap[i][j + 1] != '<') && (parsedMap[i][j - 1] == '>' || parsedMap[i][j - 1] == 'S'))
+                            || (parsedMap[i][j] == '<'
+                            && (parsedMap[i - 1][j] != 'v')
+                            && (parsedMap[i + 1][j] == '^' || parsedMap[i + 1][j] == 'S')
+                            && (/* parsedMap[i][j + 1] != 'S' && */parsedMap[i][j + 1] != '<') && (parsedMap[i][j - 1] == '<'
+                            || parsedMap[i][j - 1] == '^'
+                            || parsedMap[i][j - 1] == 'v' || parsedMap[i][j - 1] == 'X'))) {
+                        new GuiObject("cws" + counter, j, i);
+                        counter++;
+                    }
 
-						/*--------------------------------------------------------------------------------*/
-						// This is a curve from east-to-south (picture: ru.png)
-						else if ((parsedMap[i][j] == '>'
-								&& (parsedMap[i - 1][j] != 'v')
-								&& (parsedMap[i + 1][j] == '^' || parsedMap[i + 1][j] == 'S')
-								&& (parsedMap[i][j + 1] == '^'
-										|| parsedMap[i][j + 1] == 'v'
-										|| parsedMap[i][j + 1] == '>' || parsedMap[i][j + 1] == 'X') && (parsedMap[i][j - 1] != '>'))
-								|| (parsedMap[i][j] == 'v'
-										&& (parsedMap[i - 1][j] != 'v')
-										&& (parsedMap[i + 1][j] == 'v'
-												|| parsedMap[i + 1][j] == '<'
-												|| parsedMap[i + 1][j] == '>' || parsedMap[i + 1][j] == 'X')
-										&& (parsedMap[i][j + 1] == '<' || parsedMap[i][j + 1] == 'S') && (parsedMap[i][j - 1] != '>'))) {
-							new GuiObject("ces" + counter, j, i);
-							counter++;
-						}
-					} // end for-loop (j)
-				} // end for-loop (i)
-			} // end of if
-		} // end of arrayToGuiObject
-		
-		/**
-		 * To get the char at x and y
-		 * @param x the x Position in the Array
-		 * @param y the y Position in the Array
-		 * @return the char at the position
-		 */
-		public char getCharAt(int x, int y) {
-			return parsedMap[x][y];
-		}
+                    /*--------------------------------------------------------------------------------*/
+                    // This is a curve from west-to-north (picture: lo.png)
+                    else if ((parsedMap[i][j] == '^'
+                            && (parsedMap[i - 1][j] == '<' || parsedMap[i - 1][j] == '>' || parsedMap[i - 1][j] == '^' || parsedMap[i - 1][j] == 'X')
+                            && (parsedMap[i + 1][j] != '^' || parsedMap[i + 1][j] != 'S')
+                            && (parsedMap[i][j + 1] != '<')
+                            && (parsedMap[i][j - 1] == '>' || (parsedMap[i][j - 1] == 'S' && parsedMap[i + 1][j] != '^')))
+                            || (parsedMap[i][j] == '<'
+                            && (parsedMap[i - 1][j] == 'v' || parsedMap[i - 1][j] == 'S')
+                            && (parsedMap[i + 1][j] != '^')
+                            && (parsedMap[i][j + 1] != '<' || parsedMap[i][j + 1] != 'S')
+                            && (parsedMap[i][j - 1] == '<' || parsedMap[i][j - 1] == '^' || parsedMap[i][j - 1] == 'v' || parsedMap[i][j - 1] == 'X'))) {
+                        new GuiObject("cwn" + counter, j, i);
+                        counter++;
+                    }
 
-		/**
-		 * 	resets the char-array
-		 */
-		public void reset() {
-			parsedMap = new char[0][0];
-		}
+                    /*--------------------------------------------------------------------------------*/
+                    // This is a curve from east-to-north (picture: ro.png)
+                    else if ((parsedMap[i][j] == '^'
+                            && (parsedMap[i - 1][j] == '^' || parsedMap[i - 1][j] == '<' || parsedMap[i - 1][j] == '>' || parsedMap[i - 1][j] == 'X')
+                            && (parsedMap[i + 1][j] != '^')
+                            && (parsedMap[i][j + 1] == '<' || parsedMap[i][j + 1] == 'S')
+                            && (parsedMap[i][j - 1] != '>'))
+                            || (parsedMap[i][j] == '>'
+                            && (parsedMap[i - 1][j] == 'v' || parsedMap[i - 1][j] == 'S')
+                            && (parsedMap[i + 1][j] != '^')
+                            && (parsedMap[i][j + 1] == '>' || parsedMap[i][j + 1] == '^' || parsedMap[i][j + 1] == 'v' || parsedMap[i][j + 1] == 'X')
+                            && (parsedMap[i][j - 1] != '>'))) {
+                        new GuiObject("cen" + counter, j, i);
+                        counter++;
+                    }
 
-		/**
-		 * Getter of the property <tt>guiObject</tt>
-		 * 
-		 * @return Returns the guiObject.
-		 * 
-		 */
+                    /*--------------------------------------------------------------------------------*/
+                    // This is a curve from east-to-south (picture: ru.png)
+                    else if ((parsedMap[i][j] == '>'
+                            && (parsedMap[i - 1][j] != 'v')
+                            && (parsedMap[i + 1][j] == '^' || parsedMap[i + 1][j] == 'S')
+                            && (parsedMap[i][j + 1] == '^'
+                            || parsedMap[i][j + 1] == 'v'
+                            || parsedMap[i][j + 1] == '>' || parsedMap[i][j + 1] == 'X') && (parsedMap[i][j - 1] != '>'))
+                            || (parsedMap[i][j] == 'v'
+                            && (parsedMap[i - 1][j] != 'v')
+                            && (parsedMap[i + 1][j] == 'v'
+                            || parsedMap[i + 1][j] == '<'
+                            || parsedMap[i + 1][j] == '>' || parsedMap[i + 1][j] == 'X')
+                            && (parsedMap[i][j + 1] == '<' || parsedMap[i][j + 1] == 'S') && (parsedMap[i][j - 1] != '>'))) {
+                        new GuiObject("ces" + counter, j, i);
+                        counter++;
+                    }
+                } // end for-loop (j)
+            } // end for-loop (i)
+        } // end of if
+    } // end of arrayToGuiObject
 
-		public GuiObject getGuiObject() {
-			return guiObject;
-		}
+    /**
+     * To get the char at x and y
+     *
+     * @param x the x Position in the Array
+     * @param y the y Position in the Array
+     * @return the char at the position
+     */
+    public char getCharAt(int x, int y) {
+        return parsedMap[x][y];
+    }
 
-		/**
-		 * Setter of the property <tt>guiObject</tt>
-		 * 
-		 * @param guiObject
-		 *            The guiObject to set.
-		 * 
-		 */
-		public void setGuiObject(GuiObject guiObject) {
-			this.guiObject = guiObject;
-		}
-	} // end of class
+    /**
+     * resets the char-array
+     */
+    public void reset() {
+        parsedMap = new char[0][0];
+    }
+
+    /**
+     * Getter of the property <tt>guiObject</tt>
+     *
+     * @return Returns the guiObject.
+     */
+
+    public GuiObject getGuiObject() {
+        return guiObject;
+    }
+
+    /**
+     * Setter of the property <tt>guiObject</tt>
+     *
+     * @param guiObject The guiObject to set.
+     */
+    public void setGuiObject(GuiObject guiObject) {
+        this.guiObject = guiObject;
+    }
+} // end of class
