@@ -14,12 +14,12 @@
 		 * Constructor of the Class
 		 * get an new an the x and y Coordinates and put them into a HashMap
 		 * 
-		 * @param name the Key for the HashMap
+		 * @param key the Key for the HashMap
 		 * @param x the x Coordinate
 		 * @param y the y Coordinate
 		 */
-		GuiObject(String name, int x, int y) {
-			GuiObjectMap.put(name, new Point(x * pictureSize, y * pictureSize));
+		GuiObject(String key, int x, int y) {
+			GuiObjectMap.put(key, new Point(x * pictureSize, y * pictureSize));
 		}
 		
 		/**
@@ -34,33 +34,33 @@
 		/**
 		 * to update a Value in the HashMap
 		 * 
-		 * @param name the Key to get the Value
+		 * @param key the Key to get the Value
 		 * @param x the x to update
 		 * @param y the y to update
 		 */
-		public static void update(String name, int x, int y) {
-
-			GuiObjectMap.get(name).translate((x * pictureSize), (y * pictureSize));
+		static void update(String key, int x, int y)
+		{
+			GuiObjectMap.get(key).translate(x , y );
 		}
 
 		/**
 		 * Calculates the middle of the Picture
-		 * @param name the Key to get the Value
+		 * @param key the Key to get the Value
 		 * @return the mid x Coordinate
 		 */
-		static double getmidX(String name) // return int x
+		static double getmidX(String key) // return int x
 		{
-			return (GuiObjectMap.get(name).getX()+(pictureSize/2f));
+			return (GuiObjectMap.get(key).getX()+(pictureSize/2f));
 		}
 		
 		/**
 		 * Calculates the middle of the Picture
-		 * @param name the Key to get the Value
+		 * @param key the Key to get the Value
 		 * @return the mid y Coordinate
 		 */
-		static double getmidY(String name) // return int x
+		static double getmidY(String key) // return int x
 		{
-			return (GuiObjectMap.get(name).getY()+(pictureSize/2f));
+			return (GuiObjectMap.get(key).getY()+(pictureSize/2f));
 		}
 
 		/**

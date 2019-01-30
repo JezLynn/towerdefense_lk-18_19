@@ -217,22 +217,11 @@ public class GameEngine {
      */
     public void StartMonster(int life, int speed, int profit) //Creates 1 "NumbMonster" monster & GuiObject @ random start
     {
-        NumbMonster++; //Starts a new Monster, so NumbMonster+1
-        String monsterX = "monster" + NumbMonster;
+        String monsterX = "monster" + ++NumbMonster;
         Random rand = new Random();
-        int randStart = 0;
-        int randMove = rand.nextInt(10); //TODO
-        if (StartPoints > 1) //If there is more than 1 start point = random Start
-        {
-            randStart = rand.nextInt(StartPoints);
-            new GuiObject(monsterX, Start[1][randStart], Start[0][randStart]);
-            monsterMap.put(monsterX, new Monster(monsterX, life, speed, profit, randStart));
-            GuiObject.GuiObjectMap.get(monsterX).translate(0, -2 * randMove); //TODO
-
-        } else
-            new GuiObject(monsterX, Start[1][randStart], Start[0][randStart]);
+        int randStart = rand.nextInt(StartPoints);
+        new GuiObject(monsterX, Start[1][randStart], Start[0][randStart]);
         monsterMap.put(monsterX, new Monster(monsterX, life, speed, profit, randStart));
-
     }
 
     /**
@@ -331,19 +320,19 @@ public class GameEngine {
 
                     switch (p) {
                         case 'v':
-                            GuiObject.GuiObjectMap.get(monsterX).translate(0, 1);
+                            GuiObject.update(monsterX, 0, 1);
                             break;
 
                         case '>':
-                            GuiObject.GuiObjectMap.get(monsterX).translate(1, 0);
+                            GuiObject.update(monsterX, 1, 0);
                             break;
 
                         case '<':
-                            GuiObject.GuiObjectMap.get(monsterX).translate(-1, 0);
+                            GuiObject.update(monsterX, -1, 0);
                             break;
 
                         case '^':
-                            GuiObject.GuiObjectMap.get(monsterX).translate(0, -1);
+                            GuiObject.update(monsterX, 0, -1);
                             break;
 
                         case 'X':
