@@ -73,8 +73,6 @@ public class Playgroundanzeige extends JPanel {
 
 
         Tower T = new Tower(new Punkt(2.5, 2.5), myPGround);
-        T.range = 5;
-        T.reload = 5;
 
         myPGround.add(T);
 
@@ -308,9 +306,10 @@ public class Playgroundanzeige extends JPanel {
             g.fillOval((int) ((Kreis.position.x -Kreis.radius) * zoom), (int) ((Kreis.position.y -Kreis.radius) * zoom), (int) (2 * zoom * Kreis.radius), (int) (2 * zoom * Kreis.radius));
         } else if (G instanceof Image) {
             Image Bild =(Image) G;
-
             g.drawImage(Bild.png,(int)((Bild.position.x-Bild.ofsetx)* zoom),(int)((Bild.position.y-Bild.ofsety)* zoom),Bild.size* zoom,Bild.size* zoom,null);
-            //g.drawImage(Bild.png,(int)Bild.position.x* zoom,(int)Bild.position.y* zoom,Bild.size,Bild.size,null);
+        } else if (G instanceof  text){
+            text Text =(text) G;
+            g.drawString(Text.content,(int)Text.position.x,(int)Text.position.y);
         }
     }
 } // end of class Playgroundanzeige
