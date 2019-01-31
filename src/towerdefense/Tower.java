@@ -46,14 +46,19 @@ public class Tower {
     */
   public void update(ArrayList<Enemy> Enemys){
     if(laden>reload){
-      if(target == null || !target.aktiv || inrange(target)){
+
+      //neues target wird gesucht wenn es existiert/aktiv ist/in reichweite ist
+      if(target == null || !target.aktiv || !inrange(target)){
           ArrayList<Enemy> Enemyinrange = inrange(Enemys);
           if(Enemyinrange!=null) { target=Enemyinrange.get(0); }
+          else{target=null;}
       }
-     
+
+      //auf das target wird geschossen
       if(target!=null && inrange(target)) {
         shoot();
-        playground.Particles.add(new Particle(10,new Line(position,target.position.copy())));
+        //playground.Particles.add(new Particle(10,new Line(position,target.position.copy())));
+        playground.Particles.add(new Particle(10,new Line(position,target.position)));
         laden=0;
       }                                                      
     } else { laden++; }

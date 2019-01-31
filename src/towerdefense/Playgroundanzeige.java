@@ -49,6 +49,7 @@ public class Playgroundanzeige extends JPanel {
     datei[8]= "#________#";
     datei[9]= "##########";*/
 
+
         char[][] level = new char[datei.length][]; //eingelesenes level als char array
         for (int i = 0; i < datei.length; i++) {
             level[i] = datei[i].toCharArray();
@@ -56,11 +57,16 @@ public class Playgroundanzeige extends JPanel {
         } // end of for
         //System.out.println(datei.length);
 
+        boolean isLevelGood = isLevelPlayable(level);
+        System.out.println("Is the Level playable?: " + isLevelGood);
+        if (!isLevelGood) System.exit(42);
+
+
         Playground myPGround = new Playground(level);
         //System.out.println(myPGround.startx+" "+myPGround.starty);
         //    gui.s
         myPGround.zoom = 23;
-        //    hex.zoom=50;
+        //    myPGround.zoom=50;
         Playgroundanzeige myAnzeige = new Playgroundanzeige(myPGround);
         gui.add(myAnzeige);
         myAnzeige.updateUI();
@@ -68,14 +74,14 @@ public class Playgroundanzeige extends JPanel {
 
         Tower T = new Tower(new Punkt(2.5, 2.5), myPGround);
         T.range = 5;
-        T.reload = 10;
+        T.reload = 5;
 
         myPGround.add(T);
 
         int i = 100;
         while (true) {
             if (--i < 0) {
-                i = 1000;
+                i = 100;
                 myPGround.add(myPGround.newenemy());
             }
             myPGround.update();
@@ -86,7 +92,7 @@ public class Playgroundanzeige extends JPanel {
             //      myPGround.add(myPGround.newenemy());}
             try {
                 //print something here
-                Thread.sleep(10); //sleep
+                Thread.sleep(30); //sleep
                 //print something else here
             } catch (InterruptedException e) {
                 System.out.println("Got interrupted!");
@@ -104,7 +110,7 @@ public class Playgroundanzeige extends JPanel {
     */
     public static String[] dateilesen(String pfad) {
         try {
-            ArrayList<String> datei = new ArrayList<String>();
+            ArrayList<String> datei = new ArrayList<>();
             BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(pfad), "UTF-8"));
             String zeile = "";
             while ((zeile = br.readLine()) != null) {
@@ -116,6 +122,63 @@ public class Playgroundanzeige extends JPanel {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private static boolean isLevelPlayable(char[][] level) {
+
+        boolean good = false;
+        boolean spawnExists = false;
+        int[] spawnCoords = new int[2];
+        boolean goalExists = false;
+        boolean pathExists = false;
+        boolean placeAbleExists = false;
+
+
+        for (int i=0; i < level.length; i++) {
+            if (level[i].length != level[0].length) {System.out.println("Broke!!!"); break;}
+
+            for (int j=0; j < level[i].length; j++) {
+                if (("S").equals(String.valueOf(level[i][j]))) {
+                    spawnExists = true;
+                    spawnCoords[0] = i;
+                    spawnCoords[1] = j;
+                }
+                if (("X").equals(String.valueOf(level[i][j]))) goalExists = true;
+                if (("_").equals(String.valueOf(level[i][j]))) placeAbleExists = true;
+            }
+        }
+
+        if (spawnExists) { pathExists = tracePath(level, spawnCoords, null); }
+        if (spawnExists && goalExists && pathExists && placeAbleExists)  good = true;
+
+        System.out.println("Does a Spawn exist?: " + spawnExists);
+        System.out.println("Does a Goal exist?: " + goalExists);
+        System.out.println("Does a path exist?: " + pathExists);
+        System.out.println("Does a place for a Tower exist?: " + placeAbleExists);
+
+        return good;
+    }
+    private static boolean tracePath(char[][] level, int[] aktCoords, int[] letztes) {
+
+        System.out.println("------------------------");
+        System.out.println("AktCoords - x: " + aktCoords[1] + " y: " + aktCoords[0]);
+
+        if (("S").equals(String.valueOf(level[aktCoords[0]][aktCoords[1]]))) {
+            if (tracePath(level, new int[]{aktCoords[0] + 1, aktCoords[1]}, aktCoords) ||
+                    tracePath(level, new int[]{aktCoords[0] - 1, aktCoords[1]}, aktCoords) ||
+                    tracePath(level, new int[]{aktCoords[0], aktCoords[1] + 1}, aktCoords) ||
+                    tracePath(level, new int[]{aktCoords[0], aktCoords[1] - 1}, aktCoords)) {
+                System.out.println("Spawn found, proceeding...");
+                return true;
+            }
+        } else if (aktCoords[0] == letztes[0] && aktCoords[1] == letztes[1]) return false;
+        else if (("X").equals(String.valueOf(level[aktCoords[0]][aktCoords[1]]))) return true;
+        else if (("<").equals(String.valueOf(level[aktCoords[0]][aktCoords[1]]))) return tracePath(level, new int[]{aktCoords[0], aktCoords[1] - 1}, aktCoords);
+        else if ((">").equals(String.valueOf(level[aktCoords[0]][aktCoords[1]]))) return tracePath(level, new int[]{aktCoords[0], aktCoords[1] + 1}, aktCoords);
+        else if (("V").equals(String.valueOf(level[aktCoords[0]][aktCoords[1]]))) return tracePath(level, new int[]{aktCoords[0] + 1, aktCoords[1]}, aktCoords);
+        else if (("^").equals(String.valueOf(level[aktCoords[0]][aktCoords[1]]))) return tracePath(level, new int[]{aktCoords[0] - 1, aktCoords[1]}, aktCoords);
+
+        return false;
     }
 
     /**
@@ -135,7 +198,7 @@ public class Playgroundanzeige extends JPanel {
                         break;
                     case '>':
                     case '<':
-                    case 'v':
+                    case 'V':
                     case '^':
                         f = Color.RED;
                         break;
@@ -245,7 +308,9 @@ public class Playgroundanzeige extends JPanel {
             g.fillOval((int) ((Kreis.position.x -Kreis.radius) * zoom), (int) ((Kreis.position.y -Kreis.radius) * zoom), (int) (2 * zoom * Kreis.radius), (int) (2 * zoom * Kreis.radius));
         } else if (G instanceof Image) {
             Image Bild =(Image) G;
-            g.drawImage(Bild.png,(int)Bild.position.x,(int)Bild.position.y,Bild.size,Bild.size,this);
+
+            g.drawImage(Bild.png,(int)((Bild.position.x-Bild.ofsetx)* zoom),(int)((Bild.position.y-Bild.ofsety)* zoom),Bild.size* zoom,Bild.size* zoom,null);
+            //g.drawImage(Bild.png,(int)Bild.position.x* zoom,(int)Bild.position.y* zoom,Bild.size,Bild.size,null);
         }
     }
 } // end of class Playgroundanzeige

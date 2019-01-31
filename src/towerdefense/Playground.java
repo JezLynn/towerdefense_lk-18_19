@@ -47,6 +47,11 @@ public class Playground {
         E.speed = 1;
         return E;
     }
+    public Enemy newenemy(String shape) {
+        Enemy E = new Enemy(startx + 0.5, starty + 0.5,shape);
+        E.speed = 1;
+        return E;
+    }
 
     /**
      * fügt ein Enemy in die Liste der Enemys ein, die auf dem Spielfeld angezeigt werden.
