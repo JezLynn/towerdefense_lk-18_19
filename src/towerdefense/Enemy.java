@@ -12,7 +12,7 @@ package towerdefense;
 public class Enemy implements pos{
  
   Grafikelemente G; //Welche Grafik hat der Enemy
-  String path="Grafiken/kylo.png"; //DAteipfad für die Position des Bildes
+  private String path="Grafiken/kylo.png"; //Dateipfad für die Position des Bildes
   
 
   int speed=1;  //Geschwindigkeit der Schritte 
@@ -34,9 +34,9 @@ public class Enemy implements pos{
    try {
        this.G = new Image(position, path, 1);
    }catch( Exception e){
-          e.printStackTrace();
-          this.G=new Circle(position,0.3);
-      }
+       e.printStackTrace();
+       this.G=new Circle(position,0.3);
+   }
   }
 
     Enemy(double x,double y,String shape){
@@ -92,16 +92,20 @@ public class Enemy implements pos{
   
       switch (level[Y][X]) { //für jedes Zeichen auf dem der Enemy ist wird eine Richtung bestimmt
         case  '>':
-         v.sety(true,dy,schrittweite);     
+         v.sety(true,dy,schrittweite);
+            System.out.println(">");
          break;
         case  '<':
-         v.sety(false,dy,schrittweite);   
+         v.sety(false,dy,schrittweite);
+            System.out.println("<");
          break;
         case  'v':
          v.setx(dx,true,schrittweite);
+         System.out.println("v");
          break;
         case  '^':
          v.setx(dx,false,schrittweite);
+            System.out.println("^");
          break;
         case  'X':ziel=true;aktiv=false; //beim Ziel muss der Enemy sich nicht mehr bewegen
          break;

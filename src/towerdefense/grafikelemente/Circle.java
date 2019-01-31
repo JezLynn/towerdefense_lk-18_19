@@ -1,6 +1,5 @@
 package towerdefense.grafikelemente;
 
-
 import towerdefense.Punkt;
 
 public class Circle extends Grafikelemente {

@@ -14,10 +14,11 @@ public class Tower {
   // Anfang Attribute
   Playground playground;
   public Grafikelemente G;
+  public String path="Grafiken/tower.png";
 
-  double range=2;             //Reichweite des Turms
-  int reload=6;               //Nachladezeit des  Turms in ticks
-  int damage=10;              //Staerke des Turms pro Hit
+  private double range;             //Reichweite des Turms
+  int reload;               //Nachladezeit des  Turms in ticks
+  int damage;              //Staerke des Turms pro Hit
   
   Punkt position;             // Punkt der die Position des Turms definiert
   int zoom;                   // evtl noch brauchbar
@@ -35,7 +36,15 @@ public class Tower {
   Tower(Punkt position,Playground playground) {
     this.position=position;
     this.playground=playground;
-    this.G=new Circle(position,0.3);
+    this.range=4.0;
+    this.reload=5;
+    this.damage=10;
+    try {
+      this.G = new Image(position, path, 1);
+    }catch( Exception e){
+      e.printStackTrace();
+      this.G=new Circle(position,0.3);
+    }
   }
   
   // Anfang Methoden
@@ -80,8 +89,10 @@ public class Tower {
   public ArrayList<Enemy> inrange( ArrayList<Enemy> Enemys){
     ArrayList<Enemy> Enemyinrange = new ArrayList<Enemy>();
     for (Enemy enemy : Enemys) {
-      if (enemy.position.distance(this.position) < this.range) { Enemyinrange.add(enemy); };
-    } // end of for
+      if (enemy.position.distance(this.position) < this.range) {
+        Enemyinrange.add(enemy);
+      }
+    }
     if(Enemyinrange.size()==0) { return null; }
     else { return Enemyinrange;}
   }
