@@ -99,7 +99,7 @@ public class Enemy implements pos{
          v.sety(false,dy,schrittweite);
             System.out.println("<");
          break;
-        case  'v':
+        case  'V':
          v.setx(dx,true,schrittweite);
          System.out.println("v");
          break;
