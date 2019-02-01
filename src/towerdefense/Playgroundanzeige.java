@@ -15,9 +15,9 @@ import java.util.ArrayList;
 import java.io.*; // dateilesen
 
 public class Playgroundanzeige extends JPanel {
-    Color[][] hintergrund;
-    int zoom = 23;
-    Playground Pground;
+    public Color[][] hintergrund;
+    public int zoom = 23;
+    public Playground Pground;
 
 
 
@@ -35,7 +35,7 @@ public class Playgroundanzeige extends JPanel {
     
     public static void main(String[] args) {
         Mygui2 gui = new Mygui2();
-        String[] datei = dateilesen("Levels/level_01.txt");
+        String[] datei = Playground.dateilesen("Levels/level_01.txt");
         
     /*String[] datei=new String[10];
     datei[0]= "##########";
@@ -54,7 +54,7 @@ public class Playgroundanzeige extends JPanel {
         for (int i = 0; i < datei.length; i++) {
             level[i] = datei[i].toCharArray();
             System.out.println(datei[i]);
-        } // end of for
+        }
         //System.out.println(datei.length);
 
         boolean isLevelGood = isLevelPlayable(level);
@@ -63,10 +63,8 @@ public class Playgroundanzeige extends JPanel {
 
 
         Playground myPGround = new Playground(level);
-        //System.out.println(myPGround.startx+" "+myPGround.starty);
-        //    gui.s
         myPGround.zoom = 23;
-        //    myPGround.zoom=50;
+        myPGround.Me = new Player(100,100);
         Playgroundanzeige myAnzeige = new Playgroundanzeige(myPGround);
         gui.add(myAnzeige);
         myAnzeige.updateUI();
@@ -95,31 +93,7 @@ public class Playgroundanzeige extends JPanel {
             } catch (InterruptedException e) {
                 System.out.println("Got interrupted!");
             }
-        } // end of for
-    } // end of main
-
-    /**
-    * Liest die Datei am Pfad pfad in ein Array,
-    * das die Zeilen beinhaltet, aus
-    * 
-    * @param pfad String
-    * @return String[] datei
-    * @throws IOException
-    */
-    public static String[] dateilesen(String pfad) {
-        try {
-            ArrayList<String> datei = new ArrayList<>();
-            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(pfad), "UTF-8"));
-            String zeile = "";
-            while ((zeile = br.readLine()) != null) {
-                datei.add(zeile);
-            }
-            br.close();
-            return datei.toArray(new String[datei.size()]);
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-        return null;
     }
 
     private static boolean isLevelPlayable(char[][] level) {

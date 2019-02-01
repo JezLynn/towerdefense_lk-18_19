@@ -20,10 +20,11 @@ public class Enemy implements pos{
  
   
   Punkt position;  //Speichere die Position
-  int HP=100;
+  int HP;
   boolean ziel=false; //ist das Ziel erreicht
   boolean dead=false;
   boolean aktiv=true;
+  int value;   //Schaden den der Enemy macht und Geld beim Tot
   
   /**
   * Konstruktor des Enemys
@@ -31,6 +32,8 @@ public class Enemy implements pos{
   */
   Enemy(double x,double y){
    position=new Punkt(x,y);
+   value=10;
+   HP=100;
    try {
        this.G = new Image(position, path, 1);
    }catch( Exception e){
@@ -39,22 +42,24 @@ public class Enemy implements pos{
    }
   }
 
-    Enemy(double x,double y,String shape){
-        position=new Punkt(x,y);
-        switch (shape) {
-            case "kylo":
-            try {
+  Enemy(double x,double y,String shape){
+      position=new Punkt(x,y);
+      value=10;
+      HP=100;
+      switch (shape) {
+          case "kylo":
+              try {
                 this.G = new Image(position, path, 1);
-            } catch (Exception e) {
+              } catch (Exception e) {
                 e.printStackTrace();
                 this.G = new Circle(position, 0.3);
-            }
-            break;
-            case "Circle": case "C":
+              }
+              break;
+          case "Circle": case "C":
                 this.G = new Circle(position, 0.3);
                 break;
-        }
-    }
+      }
+  }
  
   /**
   *Get-Methode für die Position
@@ -93,19 +98,15 @@ public class Enemy implements pos{
       switch (level[Y][X]) { //für jedes Zeichen auf dem der Enemy ist wird eine Richtung bestimmt
         case  '>':
          v.sety(true,dy,schrittweite);
-            System.out.println(">");
          break;
         case  '<':
          v.sety(false,dy,schrittweite);
-            System.out.println("<");
          break;
         case  'V':
          v.setx(dx,true,schrittweite);
-         System.out.println("v");
          break;
         case  '^':
          v.setx(dx,false,schrittweite);
-            System.out.println("^");
          break;
         case  'X':ziel=true;aktiv=false; //beim Ziel muss der Enemy sich nicht mehr bewegen
          break;
