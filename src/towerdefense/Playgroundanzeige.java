@@ -15,9 +15,9 @@ import java.util.ArrayList;
 import java.io.*; // dateilesen
 
 public class Playgroundanzeige extends JPanel {
-    public Color[][] hintergrund;
-    public int zoom=49;
-    public Playground Pground;
+    Color[][] hintergrund;
+    int zoom = 23;
+    Playground Pground;
 
 
 
@@ -34,7 +34,8 @@ public class Playgroundanzeige extends JPanel {
 
     
     public static void main(String[] args) {
-        String[] datei = Playground.dateilesen("Levels/level_01.txt");
+        Mygui2 gui = new Mygui2();
+        String[] datei = dateilesen("Levels/level_01.txt");
         
     /*String[] datei=new String[10];
     datei[0]= "##########";
@@ -53,46 +54,71 @@ public class Playgroundanzeige extends JPanel {
         for (int i = 0; i < datei.length; i++) {
             level[i] = datei[i].toCharArray();
             System.out.println(datei[i]);
-        }
-        Playground myPGround = new Playground(level);
-
-        Mygui2 gui = new Mygui2("Swolodefense", level.length*myPGround.zoom, level[0].length*myPGround.zoom+100);//erstelle ein FEnster mit den Maßen des Arrays
+        } // end of for
+        //System.out.println(datei.length);
 
         boolean isLevelGood = isLevelPlayable(level);
         System.out.println("Is the Level playable?: " + isLevelGood);
         if (!isLevelGood) System.exit(42);
 
 
-        myPGround.Me = new Player(100,100);
+        Playground myPGround = new Playground(level);
+        //System.out.println(myPGround.startx+" "+myPGround.starty);
+        //    gui.s
+        myPGround.zoom = 23;
+        //    myPGround.zoom=50;
         Playgroundanzeige myAnzeige = new Playgroundanzeige(myPGround);
         gui.add(myAnzeige);
         myAnzeige.updateUI();
 
 
         Tower T = new Tower(new Punkt(2.5, 2.5), myPGround);
+        T.range = 5;
+        T.reload = 5;
 
         myPGround.add(T);
-
-        int i = 100;
         while (true) {
-            if (--i < 0) {
-                i = 100;
-                myPGround.add(myPGround.newenemy());
+
+            for (int i=1; i <= 100; i++) {
+                System.out.println("------------------");
+                System.out.println("New Wave incoming!");
+                System.out.println("WaveCount: " + i);
+                System.out.println("EnemyCount: " + i*2);
+                myPGround.newWave(i*2, gui);
+
+                try {
+                    //print something here
+                    Thread.sleep(1000); //sleep
+                    //print something else here
+                } catch (InterruptedException e) {
+                    System.out.println("Got interrupted!");
+                }
             }
-            myPGround.update();
-            gui.repaint();
-            //      if (Math.random()>0.95) {
-            //        myPGround.add(myPGround.newenemy());
-            //      } // end of if
-            //      myPGround.add(myPGround.newenemy());}
-            try {
-                //print something here
-                Thread.sleep(30); //sleep
-                //print something else here
-            } catch (InterruptedException e) {
-                System.out.println("Got interrupted!");
+        } // end of for
+    } // end of main
+
+    /**
+    * Liest die Datei am Pfad pfad in ein Array,
+    * das die Zeilen beinhaltet, aus
+    * 
+    * @param pfad String
+    * @return String[] datei
+    * @throws IOException
+    */
+    public static String[] dateilesen(String pfad) {
+        try {
+            ArrayList<String> datei = new ArrayList<>();
+            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(pfad), "UTF-8"));
+            String zeile = "";
+            while ((zeile = br.readLine()) != null) {
+                datei.add(zeile);
             }
+            br.close();
+            return datei.toArray(new String[datei.size()]);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        return null;
     }
 
     private static boolean isLevelPlayable(char[][] level) {
@@ -203,7 +229,6 @@ public class Playgroundanzeige extends JPanel {
         paintenemy(g);
         painttower(g);
         paintparticle(g);
-        paintstats(g);
     }
     
     /**
@@ -265,12 +290,6 @@ public class Playgroundanzeige extends JPanel {
         } // end of for
     }
 
-    private void paintstats(Graphics g){
-        Player Me =Pground.Me;
-        g.setColor(Color.BLACK);
-        draw(Me.G,g);
-    }
-
     /**
     * Zeichnet das eingegebene Grafikelement G auf die grafische Ebene g
     * 
@@ -286,10 +305,9 @@ public class Playgroundanzeige extends JPanel {
             g.fillOval((int) ((Kreis.position.x -Kreis.radius) * zoom), (int) ((Kreis.position.y -Kreis.radius) * zoom), (int) (2 * zoom * Kreis.radius), (int) (2 * zoom * Kreis.radius));
         } else if (G instanceof Image) {
             Image Bild =(Image) G;
+
             g.drawImage(Bild.png,(int)((Bild.position.x-Bild.ofsetx)* zoom),(int)((Bild.position.y-Bild.ofsety)* zoom),Bild.size* zoom,Bild.size* zoom,null);
-        } else if (G instanceof  text){
-            text Text =(text) G;
-            g.drawString(Text.content,(int)Text.position.x,(int)Text.position.y);
+            //g.drawImage(Bild.png,(int)Bild.position.x* zoom,(int)Bild.position.y* zoom,Bild.size,Bild.size,null);
         }
     }
 } // end of class Playgroundanzeige
