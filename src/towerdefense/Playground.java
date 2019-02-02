@@ -11,7 +11,7 @@ import java.io.*;                                               //dateilesen
 
 public class Playground {
     int startx, starty;                                         //Startpunkt für Enemys
-    int zoom = 30;                                              //umrechnungsfaktor von koordinaten in pixel
+    int zoom = 50;                                              //umrechnungsfaktor von koordinaten in pixel
     char[][] level;                                             //codiertes Feld
     public ArrayList<Enemy> Enemys = new ArrayList<Enemy>();           //Liste der Enemys
     public ArrayList<Tower> Towers = new ArrayList<Tower>();           //Liste der Türme
@@ -102,7 +102,7 @@ public class Playground {
                 }
                 if (E.ziel) {                           //wenn Enemy im Ziel
                     Me.decreaseLebenspunkte(10);
-                }                     //TODO zieht dem player hp ab
+                }
                 Enemys.remove(i);                       //wenn enemy im ziel ist wird er entfernt
                 i--;
             }         
@@ -133,11 +133,12 @@ public class Playground {
         }
     }
 
+
     public void update() {                              //Dauerschleife die
         moveenemys();                                   //Enemys bewegt
         updatetowers();                                 //Türme updated
         updateparticles();                              //und Particles updated
-
+        Me.updatestats();
     }
 } // end of class Playground
 

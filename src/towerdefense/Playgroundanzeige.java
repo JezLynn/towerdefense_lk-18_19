@@ -16,7 +16,7 @@ import java.io.*; // dateilesen
 
 public class Playgroundanzeige extends JPanel {
     public Color[][] hintergrund;
-    public int zoom = 23;
+    public int zoom=49;
     public Playground Pground;
 
 
@@ -34,7 +34,6 @@ public class Playgroundanzeige extends JPanel {
 
     
     public static void main(String[] args) {
-        Mygui2 gui = new Mygui2();
         String[] datei = Playground.dateilesen("Levels/level_01.txt");
         
     /*String[] datei=new String[10];
@@ -55,15 +54,15 @@ public class Playgroundanzeige extends JPanel {
             level[i] = datei[i].toCharArray();
             System.out.println(datei[i]);
         }
-        //System.out.println(datei.length);
+        Playground myPGround = new Playground(level);
+
+        Mygui2 gui = new Mygui2("Swolodefense", level.length*myPGround.zoom, level[0].length*myPGround.zoom+100);//erstelle ein FEnster mit den Maßen des Arrays
 
         boolean isLevelGood = isLevelPlayable(level);
         System.out.println("Is the Level playable?: " + isLevelGood);
         if (!isLevelGood) System.exit(42);
 
 
-        Playground myPGround = new Playground(level);
-        myPGround.zoom = 23;
         myPGround.Me = new Player(100,100);
         Playgroundanzeige myAnzeige = new Playgroundanzeige(myPGround);
         gui.add(myAnzeige);
@@ -204,6 +203,7 @@ public class Playgroundanzeige extends JPanel {
         paintenemy(g);
         painttower(g);
         paintparticle(g);
+        paintstats(g);
     }
     
     /**
@@ -263,6 +263,12 @@ public class Playgroundanzeige extends JPanel {
             g.setColor(Color.BLUE);
             draw(T.G,g);
         } // end of for
+    }
+
+    private void paintstats(Graphics g){
+        Player Me =Pground.Me;
+        g.setColor(Color.BLACK);
+        draw(Me.G,g);
     }
 
     /**

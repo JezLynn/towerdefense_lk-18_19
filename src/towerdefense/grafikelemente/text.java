@@ -2,6 +2,7 @@ package towerdefense.grafikelemente;
 
 import towerdefense.Punkt;
 
+
 public class text extends Grafikelemente{
     public Punkt position;
     public String content;

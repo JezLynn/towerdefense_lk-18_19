@@ -1,5 +1,6 @@
 package towerdefense;
 
+import towerdefense.grafikelemente.*;
 /**
   *
   * Beschreibung Klasse Player enthält Lebenspunkte und Geld
@@ -13,6 +14,7 @@ public class Player {
   // Anfang Attribute
  int Lebenspunkte;
  int Geld;
+ Grafikelemente G;//Grafikelement für stats
   // Ende Attribute
   
   // Anfang Methoden
@@ -23,12 +25,17 @@ public class Player {
  
  public void addGeld(int Betrag){
   this.Geld = this.Geld + Betrag;
+  System.out.println(Geld);
  } 
  
  public int getGeld(){
   return this.Geld;
- } 
- 
+ }
+
+ public int getLebenspunkte(){
+  return this.Lebenspunkte;
+ }
+
  public boolean removeGeld(int Betrag){
   if (this.Geld >= Betrag){
    this.Geld = this.Geld-Betrag;
@@ -45,6 +52,13 @@ public class Player {
   } else {
    return false;
   } 
- } 
-  // Ende Methoden
-} // end of Player
+ }
+ /**
+ * updatet die Stats und bereitet sie zum Anzeigen vor
+  */
+ public void updatestats(){
+  String Content="HP: "+Integer.toString(Lebenspunkte)+"   Geld: "+Integer.toString(Geld);
+  Punkt position= new Punkt(10,510);
+  this.G=new text(position,Content);
+ }
+}
