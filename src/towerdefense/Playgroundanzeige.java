@@ -73,24 +73,21 @@ public class Playgroundanzeige extends JPanel {
 
         myPGround.add(T);
 
-        int i = 100;
         while (true) {
-            if (--i < 0) {
-                i = 100;
-                myPGround.add(myPGround.newenemy());
-            }
-            myPGround.update();
-            gui.repaint();
-            //      if (Math.random()>0.95) {
-            //        myPGround.add(myPGround.newenemy());
-            //      } // end of if
-            //      myPGround.add(myPGround.newenemy());}
-            try {
-                //print something here
-                Thread.sleep(30); //sleep
-                //print something else here
-            } catch (InterruptedException e) {
-                System.out.println("Got interrupted!");
+            for (int i=1; i <= 100; i++) {
+                System.out.println("------------------");
+                System.out.println("New Wave incoming!");
+                System.out.println("WaveCount: " + i);
+                System.out.println("EnemyCount: " + i*2);
+                myPGround.newWave(i*2, gui);
+
+                try {
+                    //print something here
+                    Thread.sleep(1000); //sleep
+                    //print something else here
+                } catch (InterruptedException e) {
+                    System.out.println("Got interrupted!");
+                }
             }
         }
     }

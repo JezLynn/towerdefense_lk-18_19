@@ -39,6 +39,44 @@ public class Playground {
         }
     }
 
+
+    public void newWave(int enemyCount, Mygui2 gui) {
+        int i = 0;
+        System.out.println("New Wave Confirmed!");
+
+        while (true) {
+            int j=0;
+            while (i < enemyCount) {
+                //System.out.println("Horray!");
+
+                if (j++ >= 100) {
+                    this.add(this.newenemy());
+                    //System.out.println("New Enenmy!");
+                    i++;
+                    j=0;
+                }
+
+                this.update();
+                gui.repaint();
+
+                try {
+                    Thread.sleep(30);
+                } catch (Exception e) {
+                    System.out.println("Got interrupted!");
+                }
+            }
+            this.update();
+            gui.repaint();
+
+            try {
+                Thread.sleep(30);
+            } catch (Exception e) {
+                System.out.println("Got interrupted!");
+            }
+            if (Enemys.size() == 0) break;
+        }
+    }
+
     /**
      * erzeugt ein Enemy auf der Position des Spawns
      */
