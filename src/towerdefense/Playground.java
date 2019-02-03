@@ -11,12 +11,12 @@ import java.io.*;                                               //dateilesen
 
 public class Playground {
     int startx, starty;                                         //Startpunkt für Enemys
-    int zoom = 30;                                              //umrechnungsfaktor von koordinaten in pixel
+    int zoom = 50;                                              //umrechnungsfaktor von koordinaten in pixel
     char[][] level;                                             //codiertes Feld
-    Color[][] feld;                                             //Feld mit den Anzeigefarben
-    ArrayList<Enemy> Enemys = new ArrayList<Enemy>();           //Liste der Enemys
-    ArrayList<Tower> Towers = new ArrayList<Tower>();           //Liste der Türme
-    ArrayList<Particle> Particles = new ArrayList<Particle>();  //Liste der Particles
+    public ArrayList<Enemy> Enemys = new ArrayList<Enemy>();           //Liste der Enemys
+    public ArrayList<Tower> Towers = new ArrayList<Tower>();           //Liste der Türme
+    public ArrayList<Particle> Particles = new ArrayList<Particle>();  //Liste der Particles
+    public Player Me;
 
     /**
      * Playground wird initialisiert
@@ -33,25 +33,12 @@ public class Playground {
                     startx = X;
                     starty = Y;
 
-                } // end of if
+                }
 
-            } // end of for
-        } // end of for
+            }
+        }
     }
 
-    /**
-     * erzeugt ein Enemy auf der Position des Spawns
-     */
-    public Enemy newenemy() {
-        Enemy E = new Enemy(startx + 0.5, starty + 0.5);
-        E.speed = 1;
-        return E;
-    }
-    public Enemy newenemy(String shape) {
-        Enemy E = new Enemy(startx + 0.5, starty + 0.5,shape);
-        E.speed = 1;
-        return E;
-    }
 
     public void newWave(int enemyCount, Mygui2 gui) {
         int i = 0;
@@ -88,6 +75,20 @@ public class Playground {
             }
             if (Enemys.size() == 0) break;
         }
+    }
+
+    /**
+     * erzeugt ein Enemy auf der Position des Spawns
+     */
+    public Enemy newenemy() {
+        Enemy E = new Enemy(startx + 0.5, starty + 0.5);
+        E.speed = 1;
+        return E;
+    }
+    public Enemy newenemy(String shape) {
+        Enemy E = new Enemy(startx + 0.5, starty + 0.5,shape);
+        E.speed = 1;
+        return E;
     }
 
     /**
@@ -135,9 +136,11 @@ public class Playground {
             E.move(level);                              //Enemy wird mit der Levelstruktur zum Bewegen aufgerufen
             if (E.aktiv == false) {                     // Sonderfälle mit Enemys
                 if (E.dead) {                           //wenn Enemy tot
+                    Me.addGeld(10);
                 }
                 if (E.ziel) {                           //wenn Enemy im Ziel
-                }                     //TODO zieht dem player hp ab
+                    Me.decreaseLebenspunkte(10);
+                }
                 Enemys.remove(i);                       //wenn enemy im ziel ist wird er entfernt
                 i--;
             }         
@@ -168,11 +171,12 @@ public class Playground {
         }
     }
 
+
     public void update() {                              //Dauerschleife die
         moveenemys();                                   //Enemys bewegt
         updatetowers();                                 //Türme updated
         updateparticles();                              //und Particles updated
-
+        Me.updatestats();
     }
 } // end of class Playground
 
