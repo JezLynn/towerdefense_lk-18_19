@@ -12,6 +12,7 @@ import java.io.*;                                               //dateilesen
 public class Playground {
     int startx, starty;                                         //Startpunkt für Enemys
     int zoom = 50;                                              //umrechnungsfaktor von koordinaten in pixel
+    int textpositiony, textpositionx;           //postion der stats abhängig der Feldgröße
     char[][] level;                                             //codiertes Feld
     public ArrayList<Enemy> Enemys = new ArrayList<Enemy>();           //Liste der Enemys
     public ArrayList<Tower> Towers = new ArrayList<Tower>();           //Liste der Türme
@@ -41,6 +42,8 @@ public class Playground {
 
 
     public void newWave(int enemyCount, Mygui2 gui) {
+        textpositiony=gui.height;
+        textpositionx=gui.width;
         int i = 0;
         System.out.println("New Wave Confirmed!");
 
@@ -49,13 +52,12 @@ public class Playground {
             while (i < enemyCount) {
                 //System.out.println("Horray!");
 
-                if (j++ >= 100) {
+                if (j++ >= 40) {
                     this.add(this.newenemy());
                     //System.out.println("New Enenmy!");
                     i++;
                     j=0;
                 }
-
                 this.update();
                 gui.repaint();
 
@@ -172,11 +174,16 @@ public class Playground {
     }
 
 
-    public void update() {                              //Dauerschleife die
-        moveenemys();                                   //Enemys bewegt
-        updatetowers();                                 //Türme updated
-        updateparticles();                              //und Particles updated
-        Me.updatestats();
+    public void update() { //Dauerschleife die
+        if(!Me.IsDeath()) {                     //Wenn der Player lebt
+            moveenemys();                                   //Enemys bewegt
+            updatetowers();                                 //Türme updated
+            updateparticles();                              //und Particles updated
+            Me.updatestats(textpositiony);
+        }else{
+            Punkt p= new Punkt(textpositionx/2,textpositiony/2-20);
+            Me.showdeath(p);
+        }
     }
 } // end of class Playground
 

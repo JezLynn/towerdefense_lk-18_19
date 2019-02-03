@@ -69,7 +69,7 @@ public class Playgroundanzeige extends JPanel {
         myAnzeige.updateUI();
 
 
-        Tower T = new Tower(new Punkt(2.5, 2.5), myPGround);
+        Tower T = new Tower(new Punkt(5.5, 4.5), myPGround);
 
         myPGround.add(T);
 
@@ -201,6 +201,7 @@ public class Playgroundanzeige extends JPanel {
         painttower(g);
         paintparticle(g);
         paintstats(g);
+        paintdeath(g);
     }
     
     /**
@@ -266,6 +267,11 @@ public class Playgroundanzeige extends JPanel {
         Player Me =Pground.Me;
         g.setColor(Color.BLACK);
         draw(Me.G,g);
+    }
+    private void paintdeath(Graphics g){
+        Player Me =Pground.Me;
+        g.setColor(Color.RED);
+        draw(Me.D,g);
     }
 
     /**

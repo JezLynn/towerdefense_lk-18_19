@@ -15,7 +15,7 @@ public class Enemy implements pos{
   private String path="Grafiken/kylo.png"; //Dateipfad für die Position des Bildes
   
 
-  int speed=1;  //Geschwindigkeit der Schritte 
+  int speed=1;  //Geschwindigkeit der Schritte
   double schrittweite=0.05;  //Länge der Schritte
  
   
