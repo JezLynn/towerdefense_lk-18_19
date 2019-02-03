@@ -16,7 +16,7 @@ public class Enemy implements pos{
   
 
   int speed=1;  //Geschwindigkeit der Schritte
-  double schrittweite=0.05;  //Länge der Schritte
+  double schrittweite=0.06;  //Länge der Schritte
  
   
   Punkt position;  //Speichere die Position
