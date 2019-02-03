@@ -76,7 +76,7 @@ public class Playgroundanzeige extends JPanel {
         while (true) {
             for (int i=1; i <= 100; i++) {
                 System.out.println("------------------");
-                System.out.println("New Wave incoming!");
+                System.out.println("New Wave incoming!!");
                 System.out.println("WaveCount: " + i);
                 System.out.println("EnemyCount: " + i*2);
                 myPGround.newWave(i*2, gui);
